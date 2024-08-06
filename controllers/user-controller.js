@@ -36,6 +36,8 @@ class UserController {
       );
       res.cookie("access_token", await userCredential.user.getIdToken(), {
         httpOnly: true,
+        secure: true,
+        sameSite: "none",
       });
       const user = await User.findById(userCredential.user.uid);
       if (!user) {
