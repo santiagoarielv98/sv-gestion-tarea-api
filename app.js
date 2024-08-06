@@ -10,7 +10,7 @@ app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({ origin: process.env.ALLOWED_ORIGIN.split(",") }));
+app.use(cors({ origin: process.env.ALLOWED_ORIGIN.split(","), credentials: true }));
 app.use("/", router);
 
 export default app;
