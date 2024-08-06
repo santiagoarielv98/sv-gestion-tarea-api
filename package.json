@@ -1,0 +1,29 @@
+{
+  "name": "sv-gestion-tarea-api",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node --env-file .env ./bin/www",
+    "dev": "nodemon --env-file .env ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.19.2",
+    "firebase": "^10.12.5",
+    "firebase-admin": "^12.3.0",
+    "joi": "^17.13.3",
+    "mongoose": "^8.5.2",
+    "morgan": "~1.9.1",
+    "sv-gestion-tarea-api": "file:"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/morgan": "^1.9.9",
+    "nodemon": "^3.1.4"
+  }
+}
