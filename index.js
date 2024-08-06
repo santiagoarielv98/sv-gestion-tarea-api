@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-import app from "../app.js";
+import app from "./app.js";
 import { createServer } from "http";
-import connectDB from "../config/mongo.js";
+import connectDB from "./config/mongo.js";
 
 /**
  * Get port from environment and store in Express.

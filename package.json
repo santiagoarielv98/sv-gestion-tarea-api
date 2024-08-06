@@ -7,8 +7,8 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "start": "node --env-file .env ./bin/index.js",
-    "dev": "nodemon --env-file .env ./bin/index.js"
+    "start": "node --env-file .env ./index.js",
+    "dev": "nodemon --env-file .env ./index.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
