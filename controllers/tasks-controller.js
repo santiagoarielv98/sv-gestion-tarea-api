@@ -15,6 +15,7 @@ class TasksController {
           $lt: new Date(req.query.end),
         },
       });
+      res.json(tasks);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -139,7 +140,7 @@ class TasksController {
     }
   }
 
-  tasksWithLabel(options) {
+  async tasksWithLabel(options) {
     return Task.find(options)
       .populate({
         path: "labels",
