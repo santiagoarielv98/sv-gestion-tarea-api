@@ -3,6 +3,14 @@ import Task from "../schemas/task-schema.js";
 import { taskValidator } from "../validators/task-validator.js";
 
 class TasksController {
+  async tasksWithLabel(options = {}) {
+    return await Task.find(options)
+      .populate({
+        path: "labels",
+        match: { active: true },
+      })
+      .sort({ dueDate: 1 });
+  }
   // tareas por rangos de fechas
   async getTasksByDate(req, res) {
     try {
@@ -138,15 +146,6 @@ class TasksController {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
-
-  async tasksWithLabel(options) {
-    return await Task.find(options)
-      .populate({
-        path: "labels",
-        match: { active: true },
-      })
-      .sort({ dueDate: 1 });
   }
 }
 
