@@ -4,15 +4,16 @@ import { taskValidator } from "../validators/task-validator.js";
 
 class TasksController {
   async tasksWithLabel(options = {}) {
-    return await Task.find(options)
+    const tasks = await Task.find(options)
       .populate({
         path: "labels",
         match: { active: true },
       })
       .sort({ dueDate: 1 });
+    return tasks;
   }
   // tareas por rangos de fechas
-  async getTasksByDate(req, res) {
+  getTasksByDate = async (req, res) => {
     try {
       const tasks = await this.tasksWithLabel({
         user: req.user.uid,
@@ -27,9 +28,9 @@ class TasksController {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
+  };
 
-  async getTodayTasks(req, res) {
+  getTodayTasks = async (req, res) => {
     try {
       const tasks = await this.tasksWithLabel({
         user: req.user.uid,
@@ -45,22 +46,23 @@ class TasksController {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
+  };
 
-  async getTasks(req, res) {
+  getTasks = async (req, res) => {
     try {
       const tasks = await this.tasksWithLabel({
         user: req.user.uid,
         active: true,
         isCompleted: false,
       });
+
       res.json(tasks);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
+  };
 
-  async getCompletedTasks(req, res) {
+  getCompletedTasks = async (req, res) => {
     try {
       const tasks = await this.tasksWithLabel({
         user: req.user.uid,
@@ -71,7 +73,7 @@ class TasksController {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
+  };
 
   async getTask(req, res) {
     try {
