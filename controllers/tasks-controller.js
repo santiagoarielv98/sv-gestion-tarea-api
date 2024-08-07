@@ -31,6 +31,9 @@ class TasksController {
   };
 
   getTodayTasks = async (req, res) => {
+    const nextDay = new Date();
+    nextDay.setDate(nextDay.getDate() + 1);
+    nextDay.setHours(23, 59, 59, 999);
     try {
       const tasks = await this.tasksWithLabel({
         user: req.user.uid,
@@ -38,7 +41,7 @@ class TasksController {
         isCompleted: false,
         dueDate: {
           $gte: new Date(new Date().setHours(0, 0, 0, 0)),
-          $lt: new Date(new Date().setHours(23, 59, 59, 999)),
+          $lt: nextDay,
         },
       });
 
