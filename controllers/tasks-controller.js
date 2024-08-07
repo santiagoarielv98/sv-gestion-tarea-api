@@ -3,58 +3,35 @@ import Task from "../schemas/task-schema.js";
 import { taskValidator } from "../validators/task-validator.js";
 
 class TasksController {
-  // obtener todas las tareas de hoy (principio del dia hasta mañana ultima hora)
-  async getTodayTasks(req, res) {
+  // tareas por rangos de fechas
+  async getTasksByDate(req, res) {
     try {
-      const tasks = await Task.find({
+      const tasks = await this.tasksWithLabel({
         user: req.user.uid,
         active: true,
-        dueDate: {
-          $gte: new Date(new Date().setHours(0, 0, 0, 0)),
-          $lt: new Date(new Date().setHours(23, 59, 59, 999)),
-        },
-      })
-        .populate({
-          path: "labels",
-          match: { active: true },
-        })
-        .sort({ dueDate: 1 });
-      res.json(tasks);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-  // obtener tareas vencidas y no completadas
-  async getOverdueTasks(req, res) {
-    try {
-      const tasks = await Task.find({
-        user: req.user.uid,
-        active: true,
-        dueDate: { $lt: new Date() },
         isCompleted: false,
-      })
-        .populate({
-          path: "labels",
-          match: { active: true },
-        })
-        .sort({ dueDate: -1 });
-      res.json(tasks);
+        dueDate: {
+          $gte: new Date(req.query.start),
+          $lt: new Date(req.query.end),
+        },
+      });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   }
 
-  // obtener tareas completadas
-  async getCompletedTasks(req, res) {
+  async getTodayTasks(req, res) {
     try {
-      const tasks = await Task.find({
+      const tasks = await this.tasksWithLabel({
         user: req.user.uid,
         active: true,
-        isCompleted: true,
-      }).populate({
-        path: "labels",
-        match: { active: true },
+        isCompleted: false,
+        dueDate: {
+          $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+          $lt: new Date(new Date().setHours(23, 59, 59, 999)),
+        },
       });
+
       res.json(tasks);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -63,12 +40,23 @@ class TasksController {
 
   async getTasks(req, res) {
     try {
-      const tasks = await Task.find({
+      const tasks = await this.tasksWithLabel({
         user: req.user.uid,
         active: true,
-      }).populate({
-        path: "labels",
-        match: { active: true },
+        isCompleted: false,
+      });
+      res.json(tasks);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async getCompletedTasks(req, res) {
+    try {
+      const tasks = await this.tasksWithLabel({
+        user: req.user.uid,
+        active: true,
+        isCompleted: true,
       });
       res.json(tasks);
     } catch (error) {
@@ -149,6 +137,15 @@ class TasksController {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
+  }
+
+  tasksWithLabel(options) {
+    return Task.find(options)
+      .populate({
+        path: "labels",
+        match: { active: true },
+      })
+      .sort({ dueDate: 1 });
   }
 }
 
