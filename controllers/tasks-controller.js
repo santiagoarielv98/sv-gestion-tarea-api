@@ -141,7 +141,7 @@ class TasksController {
   }
 
   async tasksWithLabel(options) {
-    return Task.find(options)
+    return await Task.find(options)
       .populate({
         path: "labels",
         match: { active: true },
