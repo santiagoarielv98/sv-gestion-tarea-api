@@ -7,7 +7,10 @@ const connectDB = async () => {
     serverApi: { version: "1", strict: true, deprecationErrors: true },
   };
   try {
-    await mongoose.connect(process.env.MONGO_URI, clientOptions);
+    await mongoose.connect(process.env.MONGO_URI, {
+      // reset 
+      
+    });
     console.log("MongoDB connected");
   } catch (error) {
     await mongoose.disconnect();

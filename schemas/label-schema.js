@@ -23,7 +23,7 @@ const labelSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: "User", select: false },
     active: { type: Boolean, default: true, select: false },
   },
-  // { timestamps: true }
+  { versionKey: false }
 );
 
 labelSchema.pre("remove", async function (next) {

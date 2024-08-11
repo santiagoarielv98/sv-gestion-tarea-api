@@ -19,7 +19,8 @@ const taskSchema = new Schema(
       select: false,
       required: true,
     },
-  }
+  },
+  { versionKey: false }
   // { timestamps: true }
 );
 

@@ -12,66 +12,14 @@ class TasksController {
       .sort({ dueDate: 1 });
     return tasks;
   }
-  // tareas por rangos de fechas
-  getTasksByDate = async (req, res) => {
-    try {
-      const tasks = await this.tasksWithLabel({
-        user: req.user.uid,
-        active: true,
-        isCompleted: false,
-        dueDate: {
-          $gte: new Date(req.query.start),
-          $lt: new Date(req.query.end),
-        },
-      });
-      res.json(tasks);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-
-  getTodayTasks = async (req, res) => {
-    const nextDay = new Date();
-    nextDay.setDate(nextDay.getDate() + 1);
-    nextDay.setHours(23, 59, 59, 999);
-    try {
-      const tasks = await this.tasksWithLabel({
-        user: req.user.uid,
-        active: true,
-        isCompleted: false,
-        dueDate: {
-          $gte: new Date(new Date().setHours(0, 0, 0, 0)),
-          $lt: nextDay,
-        },
-      });
-
-      res.json(tasks);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
 
   getTasks = async (req, res) => {
     try {
       const tasks = await this.tasksWithLabel({
         user: req.user.uid,
         active: true,
-        isCompleted: false,
       });
 
-      res.json(tasks);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-
-  getCompletedTasks = async (req, res) => {
-    try {
-      const tasks = await this.tasksWithLabel({
-        user: req.user.uid,
-        active: true,
-        isCompleted: true,
-      });
       res.json(tasks);
     } catch (error) {
       res.status(500).json({ message: error.message });

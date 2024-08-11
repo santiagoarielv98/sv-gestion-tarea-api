@@ -1,13 +1,16 @@
 import mongoose, { Schema } from "mongoose";
 
-const userSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true,
+const userSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
   },
-});
+  { versionKey: false }
+);
 
 const User = mongoose.model("User", userSchema);
 
