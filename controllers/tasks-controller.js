@@ -32,24 +32,12 @@ export const getTask = async (req, res) => {
 export const createTask = async (req, res) => {
   const userId = req.user.uid;
   const task = req.body;
-  const labels = task.labels || [];
-
-  Promise.all(
-    labels.map(async (label) => {
-      if (!isValidObjectId(label)) {
-        throw new Error("Invalid label id");
-      }
-    })
-  )
-    .then(() => {
-      return true;
-    })
-    .catch((error) => {
-      return res.status(400).json({ message: error.message });
-    });
 
   try {
-    const newTask = await Task.create({ ...task, user: userId });
+    const newTask = (await Task.create({ ...task, user: userId })).toJSON();
+    delete newTask.active;
+    delete newTask.user;
+
     res.status(201).json(newTask);
   } catch (error) {
     res.status(400).json({ message: error.message });

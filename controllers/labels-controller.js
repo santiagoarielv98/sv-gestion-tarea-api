@@ -30,7 +30,9 @@ export const createLabel = async (req, res) => {
   const userId = req.user.uid;
   const label = req.body;
   try {
-    const newLabel = await Label.create({ ...label, user: userId });
+    const newLabel = await (await Label.create({ ...label, user: userId })).toJSON();
+    delete newLabel.active;
+    delete newLabel.user;
     res.status(201).json(newLabel);
   } catch (error) {
     res.status(400).json({ message: error.message });

@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { priorityEnum } from "../schemas/task-schema.js";
+import { isValidObjectId } from "mongoose";
 
 export const taskValidator = Joi.object({
   title: Joi.string().required().messages({
@@ -11,10 +12,20 @@ export const taskValidator = Joi.object({
     "date.base": "Due date must be a valid date",
     "date.format": "Due date must be in ISO format",
   }),
-  labels: Joi.array().items(Joi.string()).default([]).messages({
-    "array.base": "Labels must be an array",
-    "string.empty": "Label cannot be empty",
-  }),
+  labels: Joi.array()
+    .items(
+      Joi.string().custom((value, helpers) => {
+        if (!isValidObjectId(value)) {
+          return helpers.error("Invalid label id");
+        }
+        return value;
+      })
+    )
+    .default([])
+    .messages({
+      "array.base": "Labels must be an array",
+      "string.empty": "Label cannot be empty",
+    }),
   priority: Joi.string()
     .valid(...priorityEnum)
     .default("medium")
@@ -44,14 +55,32 @@ export const taskUpdateValidator = Joi.object({
     "date.base": "Due date must be a valid date",
     "date.format": "Due date must be in ISO format",
   }),
-  addLabels: Joi.array().items(Joi.string()).messages({
-    "array.base": "Labels must be an array",
-    "string.empty": "Label cannot be empty",
-  }),
-  removeLabels: Joi.array().items(Joi.string()).messages({
-    "array.base": "Labels must be an array",
-    "string.empty": "Label cannot be empty",
-  }),
+  addLabels: Joi.array()
+    .items(
+      Joi.string().custom((value, helpers) => {
+        if (!isValidObjectId(value)) {
+          return helpers.error("Invalid label id");
+        }
+        return value;
+      })
+    )
+    .messages({
+      "array.base": "Labels must be an array",
+      "string.empty": "Label cannot be empty",
+    }),
+  removeLabels: Joi.array()
+    .items(
+      Joi.string().custom((value, helpers) => {
+        if (!isValidObjectId(value)) {
+          return helpers.error("Invalid label id");
+        }
+        return value;
+      })
+    )
+    .messages({
+      "array.base": "Labels must be an array",
+      "string.empty": "Label cannot be empty",
+    }),
   priority: Joi.string()
     .valid(...priorityEnum)
     .messages({
