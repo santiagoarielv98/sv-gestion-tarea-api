@@ -20,7 +20,9 @@
     "joi": "^17.13.3",
     "mongoose": "^8.5.2",
     "morgan": "~1.9.1",
-    "sv-gestion-tarea-api": "file:"
+    "sv-gestion-tarea-api": "file:",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",
