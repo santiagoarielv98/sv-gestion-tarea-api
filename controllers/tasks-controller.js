@@ -4,7 +4,10 @@ import Task from "../schemas/task-schema.js";
 export const getTasks = async (req, res) => {
   const userId = req.user.uid;
   try {
-    const tasks = await Task.find({ user: userId, active: true });
+    const tasks = await Task.find({ user: userId, active: true }).populate({
+      path: "labels",
+      match: { active: true },
+    });
     res.status(200).json(tasks);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -29,6 +32,22 @@ export const getTask = async (req, res) => {
 export const createTask = async (req, res) => {
   const userId = req.user.uid;
   const task = req.body;
+  const labels = task.labels || [];
+
+  Promise.all(
+    labels.map(async (label) => {
+      if (!isValidObjectId(label)) {
+        throw new Error("Invalid label id");
+      }
+    })
+  )
+    .then(() => {
+      return true;
+    })
+    .catch((error) => {
+      return res.status(400).json({ message: error.message });
+    });
+
   try {
     const newTask = await Task.create({ ...task, user: userId });
     res.status(201).json(newTask);
@@ -40,13 +59,26 @@ export const createTask = async (req, res) => {
 export const updateTask = async (req, res) => {
   const userId = req.user.uid;
   const { id } = req.params;
-  const { task } = req.body;
+  const { addLabels, removeLabels, ...task } = req.body;
   try {
-    const updatedTask = await Task.findOneAndUpdate({ _id: id, active: true, user: userId }, task, {
-      new: true,
-    });
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: id, active: true, user: userId },
+      {
+        ...task,
+        ...(addLabels && { $addToSet: { labels: { $each: addLabels } } }),
+      },
+      {
+        new: true,
+      }
+    ).populate("labels");
+
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
+    }
+
+    if (removeLabels) {
+      updatedTask.labels = updatedTask.labels.filter((label) => !removeLabels.includes(label._id.toString()));
+      await updatedTask.save();
     }
 
     res.status(200).json(updatedTask);

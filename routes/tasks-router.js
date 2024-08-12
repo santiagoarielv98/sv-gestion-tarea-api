@@ -3,7 +3,7 @@ import verifyToken from "../middleware/verifyToken.js";
 
 import * as tasksController from "../controllers/tasks-controller.js";
 import { handlerValidationSchema, validateIdParamHandler } from "../helpers/handlerValidation.js";
-import { taskValidator } from "../validators/task-validator.js";
+import { taskUpdateValidator, taskValidator } from "../validators/task-validator.js";
 
 const router = Router();
 
@@ -14,7 +14,7 @@ router.put(
   "/:id",
   verifyToken,
   validateIdParamHandler(),
-  handlerValidationSchema(taskValidator),
+  handlerValidationSchema(taskUpdateValidator),
   tasksController.updateTask
 );
 router.delete("/:id", verifyToken, validateIdParamHandler(), tasksController.deleteTask);
