@@ -74,7 +74,7 @@ export const activateLabel = async (req, res) => {
   const userId = req.user.uid;
   const { id } = req.params;
   try {
-    const label = await Label.findOneAndUpdate({ _id: id, user: userId }, { active: true });
+    const label = await Label.findOneAndUpdate({ _id: id, user: userId, active: false }, { active: true });
     if (!label) {
       return res.status(404).json({ message: "Label not found" });
     }
