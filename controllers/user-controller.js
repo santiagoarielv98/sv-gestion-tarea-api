@@ -1,9 +1,8 @@
 import {
-  createUserWithEmailAndPassword,
+  adminGetAuth,
+  getAuth,
   signInWithEmailAndPassword,
   signOut,
-  getAuth,
-  adminGetAuth,
 } from "../config/firebase.js";
 import User from "../schemas/user-schema.js";
 

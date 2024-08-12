@@ -5,11 +5,11 @@ export const priorityEnum = ["low", "medium", "high", "urgent"];
 const taskSchema = new Schema(
   {
     title: { type: String, required: true },
-    description: { type: String },
+    desc: { type: String },
     dueDate: { type: Date, default: Date.now },
     labels: [{ type: Schema.Types.ObjectId, ref: "Label" }],
     priority: { type: String, enum: priorityEnum, default: "medium" },
-    isCompleted: { type: Boolean, default: false },
+    completed: { type: Boolean, default: false },
     deletedAt: { type: Date, select: false },
     reminderDate: { type: Date },
     active: { type: Boolean, default: true, select: false },
@@ -21,7 +21,6 @@ const taskSchema = new Schema(
     },
   },
   { versionKey: false }
-  // { timestamps: true }
 );
 
 const Task = mongoose.model("Task", taskSchema);
