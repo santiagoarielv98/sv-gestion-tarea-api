@@ -1,16 +1,13 @@
 import mongoose from "mongoose";
 
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGO_URI;
 
 const connectDB = async () => {
   const clientOptions = {
     serverApi: { version: "1", strict: true, deprecationErrors: true },
   };
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      // reset 
-      
-    });
+    await mongoose.connect(uri, clientOptions);
     console.log("MongoDB connected");
   } catch (error) {
     await mongoose.disconnect();

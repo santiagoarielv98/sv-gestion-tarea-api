@@ -3,6 +3,8 @@ import Task from "../schemas/task-schema.js";
 
 import { labelValidator } from "../validators/label-validator.js";
 
-class LabelsController {}
+class LabelsController {
+    
+}
 
 export default new LabelsController();
