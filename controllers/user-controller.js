@@ -46,7 +46,6 @@ export const registerUser = async (req, res) => {
     if (error.code === 11000) {
       res.status(400).json({ message: "Email already exists" });
     } else {
-      console.log(error);
       res.status(400).json({ message: error.message });
     }
   }
@@ -63,14 +62,12 @@ export const authenticateUser = async (req, res) => {
       res.status(200).json(user);
     }
   } catch (error) {
-    console.log(error);
     if (error.code === "auth/invalid-credential") {
       res.status(400).json({ message: "Invalid email or password" });
     }
     if (error.code === "auth/user-disabled") {
       res.status(400).json({ message: "User is disabled" });
     } else {
-      console.log(error);
       res.status(400).json({ message: error.message });
     }
   }

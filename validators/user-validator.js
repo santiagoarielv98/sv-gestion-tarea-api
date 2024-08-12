@@ -11,4 +11,8 @@ export const userValidator = Joi.object({
     "string.empty": "Password is required",
     "any.required": "Password is required",
   }),
-}).options({ abortEarly: false });
+})
+  .options({ abortEarly: false })
+  .messages({
+    "object.unknown": "Unknown field: {{#label}}",
+  });
