@@ -1,4 +1,4 @@
-import Task from "../schemas/task-schema";
+import Task from "../schemas/task-schema.js";
 
 export const getTasks = async (req, res) => {
   const userId = req.user.uid;

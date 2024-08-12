@@ -1,5 +1,5 @@
 import { Router } from "express";
-import verifyToken from "../middleware/index.js";
+import verifyToken from "../middleware/verifyToken.js";
 
 import * as tasksController from "../controllers/tasks-controller.js";
 
