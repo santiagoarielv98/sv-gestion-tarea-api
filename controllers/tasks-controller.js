@@ -44,6 +44,22 @@ export const createTask = async (req, res) => {
   }
 };
 
+export const toggleTask = async (req, res) => {
+  const userId = req.user.uid;
+  const { id } = req.params;
+  try {
+    const task = await Task.findOne({ _id: id, active: true, user: userId, active: true });
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    task.completed = !task.completed;
+    await task.save();
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const updateTask = async (req, res) => {
   const userId = req.user.uid;
   const { id } = req.params;

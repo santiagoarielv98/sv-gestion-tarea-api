@@ -7,7 +7,7 @@ export const taskValidator = Joi.object({
     "string.empty": "Title cannot be empty",
     "any.required": "Title is required",
   }),
-  desc: Joi.string(),
+  desc: Joi.string().empty(""),
   dueDate: Joi.date().iso().default(Date.now).messages({
     "date.base": "Due date must be a valid date",
     "date.format": "Due date must be in ISO format",
@@ -50,12 +50,12 @@ export const taskUpdateValidator = Joi.object({
   title: Joi.string().messages({
     "string.empty": "Title cannot be empty",
   }),
-  desc: Joi.string(),
+  desc: Joi.string().empty(""),
   dueDate: Joi.date().iso().messages({
     "date.base": "Due date must be a valid date",
     "date.format": "Due date must be in ISO format",
   }),
-  addLabels: Joi.array()
+  labels: Joi.array()
     .items(
       Joi.string().custom((value, helpers) => {
         if (!isValidObjectId(value)) {
@@ -68,19 +68,7 @@ export const taskUpdateValidator = Joi.object({
       "array.base": "Labels must be an array",
       "string.empty": "Label cannot be empty",
     }),
-  removeLabels: Joi.array()
-    .items(
-      Joi.string().custom((value, helpers) => {
-        if (!isValidObjectId(value)) {
-          return helpers.error("Invalid label id");
-        }
-        return value;
-      })
-    )
-    .messages({
-      "array.base": "Labels must be an array",
-      "string.empty": "Label cannot be empty",
-    }),
+
   priority: Joi.string()
     .valid(...priorityEnum)
     .messages({

@@ -18,5 +18,6 @@ router.put(
   tasksController.updateTask
 );
 router.delete("/:id", verifyToken, validateIdParamHandler(), tasksController.deleteTask);
+router.patch("/toggle/:id", verifyToken, validateIdParamHandler(), tasksController.toggleTask);
 router.put("/activate/:id", verifyToken, validateIdParamHandler(), tasksController.activateTask);
 export default router;
