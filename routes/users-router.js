@@ -1,7 +1,9 @@
 import { Router } from "express";
 
 import * as userController from "../controllers/user-controller.js";
+import { handlerValidationSchema } from "../helpers/handlerValidation.js";
 import verifyToken from "../middleware/verifyToken.js";
+import { userLoginValidator, userRegisterValidator } from "../validators/user-validator.js";
 
 const router = Router();
 /**
@@ -77,7 +79,7 @@ const router = Router();
  *                   type: string
  *                   description: Mensaje de error.
  */
-router.post("/signup", userController.validateUser, userController.registerUser);
+router.post("/signup", handlerValidationSchema(userRegisterValidator), userController.registerUser);
 /**
  * @swagger
  * /api/users/signin:
@@ -126,7 +128,7 @@ router.post("/signup", userController.validateUser, userController.registerUser)
  *                   type: string
  *                   description: Mensaje de error.
  */
-router.post("/signin", userController.validateUser, userController.authenticateUser);
+router.post("/signin", handlerValidationSchema(userLoginValidator), userController.authenticateUser);
 /**
  * @swagger
  * /api/users/signout:

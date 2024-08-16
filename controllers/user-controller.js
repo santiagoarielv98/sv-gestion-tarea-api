@@ -1,6 +1,5 @@
 import { adminGetAuth, getAuth, signInWithEmailAndPassword, signOut } from "../config/firebase.js";
 import User from "../schemas/user-schema.js";
-import { userValidator } from "../validators/user-validator.js";
 
 const auth = getAuth();
 
@@ -10,35 +9,20 @@ const cookieOptions = {
   sameSite: "none",
 };
 
-export const validateUser = async (req, res, next) => {
-  const { value, error } = userValidator.validate(req.body);
-  if (error) {
-    const errors = error.details.reduce((acc, err) => {
-      acc[err.context.key] = err.message;
-      return acc;
-    }, {});
-    res.status(400).json({
-      message: error.message,
-      errors,
-    });
-  } else {
-    req.body = value;
-    next();
-  }
-};
-
 export const registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   try {
-    const newUser = await User.create({ email });
-    await adminGetAuth().createUser({
+    const newUser = await User.create({ email, name });
+    const data = await adminGetAuth().createUser({
       email: email,
       emailVerified: true,
       password: password,
       uid: newUser._id.toString(),
+      displayName: name,
     });
+    const token = await adminGetAuth().createCustomToken(data.uid);
 
-    res.cookie("access_token", await newUser.getIdToken(), cookieOptions);
+    res.cookie("access_token", token, cookieOptions);
 
     res.status(201).json(newUser);
   } catch (error) {
@@ -64,8 +48,7 @@ export const authenticateUser = async (req, res) => {
   } catch (error) {
     if (error.code === "auth/invalid-credential") {
       res.status(400).json({ message: "Invalid email or password" });
-    }
-    if (error.code === "auth/user-disabled") {
+    } else if (error.code === "auth/user-disabled") {
       res.status(400).json({ message: "User is disabled" });
     } else {
       res.status(400).json({ message: error.message });

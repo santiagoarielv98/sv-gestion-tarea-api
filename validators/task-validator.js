@@ -36,7 +36,7 @@ export const taskValidator = Joi.object({
   completed: Joi.boolean().default(false).messages({
     "boolean.base": "Completed must be a boolean",
   }),
-  reminderDate: Joi.date().iso().default(null).messages({
+  reminderDate: Joi.date().iso().allow(null).messages({
     "date.base": "Reminder date must be a valid date",
     "date.format": "Reminder date must be in ISO format",
   }),
@@ -78,7 +78,7 @@ export const taskUpdateValidator = Joi.object({
   completed: Joi.boolean().messages({
     "boolean.base": "Completed must be a boolean",
   }),
-  reminderDate: Joi.date().iso().messages({
+  reminderDate: Joi.date().iso().allow(null).messages({
     "date.base": "Reminder date must be a valid date",
     "date.format": "Reminder date must be in ISO format",
   }),

@@ -55,6 +55,8 @@ export const toggleTask = async (req, res) => {
 
     task.completed = !task.completed;
     await task.save();
+
+    res.status(200).json(task);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
