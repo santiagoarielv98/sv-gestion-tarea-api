@@ -18,7 +18,21 @@ export const signUp = async (req, res) => {
 
     res.status(201).json(user);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    // res.status(400).json({ message: error.message });
+    switch (error.code) {
+      case "auth/email-already-exists":
+        // res.status(400).json({ message: "El correo electrónico ya está registrado." });
+        res.status(400).json({ message: "The email address is already in use by another account." });
+        break;
+      case "auth/invalid-email":
+        res.status(400).json({ message: "The email address is badly formatted." });
+        break;
+      case "auth/weak-password":
+        res.status(400).json({ message: "The password must be 6 characters long or more." });
+        break;
+      default:
+        res.status(500).json({ message: "Error creating user.", error: error.message });
+    }
   }
 };
 
@@ -31,7 +45,23 @@ export const signIn = async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    switch (error.code) {
+      case "auth/user-not-found":
+        res
+          .status(404)
+          .json({
+            message: "There is no user record corresponding to this identifier. The user may have been deleted.",
+          });
+        break;
+      case "auth/invalid-email":
+        res.status(400).json({ message: "The email address is badly formatted." });
+        break;
+      case "auth/wrong-password":
+        res.status(401).json({ message: "The password is invalid or the user does not have a password." });
+        break;
+      default:
+        res.status(500).json({ message: "Error signing in.", error: error.message });
+    }
   }
 };
 

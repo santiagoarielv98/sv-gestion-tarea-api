@@ -9,6 +9,7 @@ import connectDB from "./database/index.js";
 import authRoutes from "./routes/authRoutes.js";
 import tagRoutes from "./routes/tagRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import { seed } from "../seeds.js";
 
 const app = express();
 
@@ -25,9 +26,13 @@ app.use(cors({ origin: process.env?.ALLOWED_ORIGIN?.split(",") ?? "*" }));
 app.use(helmet());
 app.use(limiter);
 
+app.use("/api/auth", authRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/tasks", taskRoutes);
 
-connectDB();
+connectDB().then(async () => {
+  await seed();
+  console.log("Database connected");
+});
 
 export default app;

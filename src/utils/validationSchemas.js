@@ -5,7 +5,7 @@ export const createTaskSchema = Joi.object({
   title: Joi.string().required(),
   desc: Joi.string().allow(""),
   dueDate: Joi.date().allow(null),
-  labels: Joi.array().items(Joi.string()),
+  tags: Joi.array().items(Joi.string()),
   priority: Joi.string().valid(...PRIORITIES),
   reminderDate: Joi.date().allow(null),
 });
@@ -14,7 +14,7 @@ export const updateTaskSchema = Joi.object({
   title: Joi.string().allow(""),
   desc: Joi.string().allow(""),
   dueDate: Joi.date().allow(null),
-  labels: Joi.array().items(Joi.string()),
+  tags: Joi.array().items(Joi.string()),
   priority: Joi.string().valid(...PRIORITIES),
   reminderDate: Joi.date().allow(null),
 });
@@ -30,10 +30,10 @@ export const updateTagSchema = Joi.object({
 export const registerSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  password: Joi.string().min(6).required(),
 });
 
 export const loginSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  password: Joi.string().min(6).required(),
 });
