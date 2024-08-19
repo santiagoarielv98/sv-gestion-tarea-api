@@ -4,7 +4,7 @@ import express, { json, urlencoded } from "express";
 import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import logger from "morgan";
-import connectDB from "./database";
+import connectDB from "./database/index.js";
 
 import tagRoutes from "./routes/tagRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
