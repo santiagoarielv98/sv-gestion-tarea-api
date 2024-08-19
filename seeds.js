@@ -29,11 +29,11 @@ const credentials = {
 };
 
 export const seed = async () => {
-  // await connectDB();
-  // eliminar todos los usuarios
-  const users = await adminGetAuth().listUsers();
-  await Promise.all(users.users.map((user) => adminGetAuth().deleteUser(user.uid)));
-  console.log("Users deleted");
+  const demoUser = await adminGetAuth().getUserByEmail(credentials.email);
+  if (demoUser) {
+    await adminGetAuth().deleteUser(demoUser.uid);
+    console.log("User deleted");
+  }
 
   // crear usuario admin
   const user = await adminGetAuth().createUser({
