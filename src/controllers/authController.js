@@ -35,11 +35,19 @@ export const signIn = async (req, res) => {
   }
 };
 
-export const signOutUser = async (req, res) => {
+export const signOut = async (req, res) => {
   try {
     await authService.signOut();
     res.clearCookie(AUTH_COOKIE_NAME);
     res.status(200).json({ message: "User signed out successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+};
+
+export const check = async (req, res) => {
+  try {
+    res.status(200).json(req.user);
   } catch (error) {
     res.status(400).json({ message: error });
   }
