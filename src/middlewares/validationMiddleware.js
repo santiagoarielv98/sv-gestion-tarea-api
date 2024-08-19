@@ -11,7 +11,6 @@ const validationMiddleware = (schema) => {
         allowUnknown: true,
         stripUnknown: true,
       });
-
       req.body = validatedData;
       next();
     } catch (error) {

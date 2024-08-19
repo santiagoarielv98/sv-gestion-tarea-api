@@ -15,8 +15,6 @@ const tagSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-tagSchema.index({ title: 1, user: 1 }, { unique: true });
-
 const Tag = mongoose.model("Label", tagSchema);
 
 export default Tag;

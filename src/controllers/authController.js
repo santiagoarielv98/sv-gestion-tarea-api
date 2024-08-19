@@ -1,7 +1,5 @@
 import { AUTH_COOKIE_NAME } from "../config/constants.js";
-import { adminGetAuth, getAuth, signInWithEmailAndPassword, signOut } from "../config/firebase.js";
-
-const auth = getAuth();
+import * as authService from "../services/authService.js";
 
 const cookieOptions = {
   httpOnly: true,
@@ -12,16 +10,11 @@ const cookieOptions = {
 export const signUp = async (req, res) => {
   try {
     const { email, password, name } = req.body;
-    const user = await adminGetAuth().createUser({
-      email,
-      password,
-      displayName: name,
-      emailVerified: true,
-    });
+    const user = await authService.register(email, password, name);
 
-    const token = await adminGetAuth().createCustomToken(user.uid);
+    const token = await authService.createCustomToken(user.uid);
 
-    req.cookies(AUTH_COOKIE_NAME, token, cookieOptions);
+    res.cookie(AUTH_COOKIE_NAME, token, cookieOptions);
 
     res.status(201).json(user);
   } catch (error) {
@@ -32,7 +25,7 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const { user } = await signInWithEmailAndPassword(email, password);
+    const { user } = await authService.login(email, password);
 
     res.cookie(AUTH_COOKIE_NAME, await user.getIdToken(), cookieOptions);
 
@@ -44,10 +37,10 @@ export const signIn = async (req, res) => {
 
 export const signOutUser = async (req, res) => {
   try {
-    await signOut(auth);
+    await authService.signOut();
     res.clearCookie(AUTH_COOKIE_NAME);
     res.status(200).json({ message: "User signed out successfully" });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error });
   }
 };

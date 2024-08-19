@@ -22,8 +22,6 @@ const taskSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-taskSchema.index({ title: 1, user: 1 }, { unique: true });
-
 const Task = mongoose.model("Task", taskSchema);
 
 export default Task;
