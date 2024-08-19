@@ -42,7 +42,7 @@ export const createLabel = async (req, res) => {
 export const updateLabel = async (req, res) => {
   const userId = req.user.uid;
   const { id } = req.params;
-  const { label } = req.body;
+  const label = req.body; 
   try {
     const updatedLabel = await Label.findOneAndUpdate({ _id: id, user: userId, active: true }, label, { new: true });
     if (!updatedLabel) {
