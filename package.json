@@ -7,8 +7,8 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "start": "node --env-file .env ./src/server.js",
-    "dev": "nodemon --env-file .env ./src/server.js",
+    "start": "node --env-file .env ./index.js",
+    "dev": "nodemon --env-file .env ./index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
