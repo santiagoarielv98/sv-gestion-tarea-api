@@ -47,11 +47,9 @@ export const signIn = async (req, res) => {
   } catch (error) {
     switch (error.code) {
       case "auth/user-not-found":
-        res
-          .status(404)
-          .json({
-            message: "There is no user record corresponding to this identifier. The user may have been deleted.",
-          });
+        res.status(404).json({
+          message: "There is no user record corresponding to this identifier. The user may have been deleted.",
+        });
         break;
       case "auth/invalid-email":
         res.status(400).json({ message: "The email address is badly formatted." });
@@ -67,10 +65,11 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
   try {
-    await authService.signOut();
+    await authService.logout()
     res.clearCookie(AUTH_COOKIE_NAME);
     res.status(200).json({ message: "User signed out successfully" });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error });
   }
 };

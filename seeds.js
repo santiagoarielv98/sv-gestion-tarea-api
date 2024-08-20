@@ -29,7 +29,9 @@ const credentials = {
 };
 
 export const seed = async () => {
-  const demoUser = await adminGetAuth().getUserByEmail(credentials.email);
+  const demoUser = await adminGetAuth()
+    .getUserByEmail(credentials.email)
+    .catch(() => null);
   if (demoUser) {
     await adminGetAuth().deleteUser(demoUser.uid);
     console.log("User deleted");
