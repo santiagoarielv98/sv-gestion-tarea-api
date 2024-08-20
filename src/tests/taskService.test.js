@@ -3,7 +3,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { PRIORITIES } from "../config/constants";
 import Task from "../models/taskModel.js";
-import Tag from "../models/tagModel.js";
+import "../models/tagModel.js";
 import * as taskService from "../services/taskService.js";
 let mongoServer;
 
