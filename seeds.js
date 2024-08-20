@@ -4,7 +4,6 @@ import Task from "./src/models/taskModel.js";
 import * as tagService from "./src/services/tagService.js";
 import * as taskService from "./src/services/taskService.js";
 import { createTaskSchema } from "./src/utils/validationSchemas.js";
-import connectDB from "./src/database/index.js";
 
 const tags = ["tag1", "tag2", "tag3", "tag4"];
 
@@ -33,6 +32,18 @@ export const seed = async () => {
     .getUserByEmail(credentials.email)
     .catch(() => null);
   if (demoUser) {
+    console.log("User created");
+
+    // eliminar todas las tareas
+    await Task.deleteMany({
+      user: demoUser.uid,
+    });
+    console.log("Tasks deleted");
+    // eliminar todas las etiquetas
+    await Tag.deleteMany({
+      user: demoUser.uid,
+    });
+
     await adminGetAuth().deleteUser(demoUser.uid);
     console.log("User deleted");
   }
@@ -44,13 +55,6 @@ export const seed = async () => {
     displayName: "Demo",
     emailVerified: true,
   });
-  console.log("User created");
-
-  // eliminar todas las tareas
-  await Task.deleteMany({});
-  console.log("Tasks deleted");
-  // eliminar todas las etiquetas
-  await Tag.deleteMany({});
 
   // crear etiquetas
   const createTags = await Promise.all(tags.map(async (tag) => tagService.createTag({ title: tag }, user.uid)));

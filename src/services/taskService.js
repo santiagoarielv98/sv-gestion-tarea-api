@@ -10,7 +10,7 @@ export const createTask = async (task, userId) => {
 };
 
 export const getTasks = async (userId) => {
-  return await Task.find({ user: userId, active: true }).populate(populateOptions);
+  return await Task.find({ user: userId, active: true }).sort({ dueDate: 1 }).populate(populateOptions);
 };
 
 export const getTaskById = async (taskId, userId) => {
