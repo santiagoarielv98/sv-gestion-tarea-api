@@ -8,6 +8,8 @@ import logger from "morgan";
 import authRoutes from "./routes/authRoutes.js";
 import tagRoutes from "./routes/tagRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import connectDB from "./database/index.js";
+import { seeds } from "../seeds.js";
 
 const app = express();
 
@@ -28,9 +30,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/tasks", taskRoutes);
 
-/* connectDB().then(async () => {
-  await seed();
+connectDB().then(async () => {
+  await seeds();
   console.log("Database connected");
 });
- */
+
 export default app;

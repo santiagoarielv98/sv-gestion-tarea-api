@@ -27,23 +27,25 @@ const credentials = {
   password: "123456",
 };
 
-export const seed = async () => {
+export const seeds = async () => {
   const demoUser = await adminGetAuth()
     .getUserByEmail(credentials.email)
     .catch(() => null);
-  if (demoUser) {
-    console.log("User created");
 
+  if (demoUser) {
     // eliminar todas las tareas
     await Task.deleteMany({
       user: demoUser.uid,
     });
+
     console.log("Tasks deleted");
     // eliminar todas las etiquetas
     await Tag.deleteMany({
       user: demoUser.uid,
     });
-
+    console.log("Tags deleted");
+    await adminGetAuth().revokeRefreshTokens(demoUser.uid);
+    console.log("Refresh tokens revoked");
     await adminGetAuth().deleteUser(demoUser.uid);
     console.log("User deleted");
   }
@@ -55,6 +57,7 @@ export const seed = async () => {
     displayName: "Demo",
     emailVerified: true,
   });
+  console.log("User created");
 
   // crear etiquetas
   const createTags = await Promise.all(tags.map(async (tag) => tagService.createTag({ title: tag }, user.uid)));

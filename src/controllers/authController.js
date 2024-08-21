@@ -1,15 +1,10 @@
+import { COOKIE_OPTIONS } from "../config/constants.js";
 import * as authService from "../services/authService.js";
 
 /**
  * @type {import('cookie-parser').CookieParseOptions}
  */
-const cookieOptions = {
-  httpOnly: true,
-  sameSite: "Strict",
-  secure: process.env.NODE_ENV === "production",
-  domain: process.env.NODE_ENV === "production" ? ".web.app" : "localhost",
-  maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-};
+
 export const signUp = async (req, res) => {
   try {
     const { email, password, name } = req.body;
@@ -17,7 +12,7 @@ export const signUp = async (req, res) => {
 
     const token = await authService.createCustomToken(user.uid);
 
-    res.cookie("access_token", token, cookieOptions);
+    res.cookie("access_token", token, COOKIE_OPTIONS);
 
     res.status(201).json(user);
   } catch (error) {
@@ -44,7 +39,7 @@ export const signIn = async (req, res) => {
     const { email, password } = req.body;
     const { user } = await authService.login(email, password);
 
-    res.cookie("access_token", await user.getIdToken(), cookieOptions);
+    res.cookie("access_token", await user.getIdToken(), COOKIE_OPTIONS);
 
     res.status(200).json(user);
   } catch (error) {
@@ -72,7 +67,7 @@ export const signIn = async (req, res) => {
 export const signOut = async (req, res) => {
   try {
     await authService.logout();
-    res.clearCookie("access_token");
+    res.clearCookie("access_token", COOKIE_OPTIONS);
     res.status(200).json({ message: "User signed out successfully" });
   } catch (error) {
     console.log(error);
