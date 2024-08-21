@@ -5,10 +5,10 @@ import * as authService from "../services/authService.js";
  */
 const cookieOptions = {
   httpOnly: true,
+  sameSite: "none",
   secure: process.env.NODE_ENV === "production",
-  sameSite: "some",
+  maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
 };
-
 export const signUp = async (req, res) => {
   try {
     const { email, password, name } = req.body;
