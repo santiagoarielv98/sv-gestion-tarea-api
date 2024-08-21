@@ -65,7 +65,7 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
   try {
-    await authService.logout()
+    await authService.logout();
     res.clearCookie(AUTH_COOKIE_NAME);
     res.status(200).json({ message: "User signed out successfully" });
   } catch (error) {
