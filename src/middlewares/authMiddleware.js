@@ -8,11 +8,7 @@ export const verifyToken = async (req, res, next) => {
   }
   try {
     const decodedToken = await adminGetAuth().verifyIdToken(idToken);
-    req.user = {
-      name: decodedToken.name,
-      email: decodedToken.email,
-      uid: decodedToken.uid,
-    };
+    req.user = decodedToken;
     next();
   } catch (error) {
     console.error("Error verifying token", error);

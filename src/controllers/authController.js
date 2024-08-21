@@ -18,10 +18,7 @@ export const signUp = async (req, res) => {
 
     res.cookie("access_token", token, cookieOptions);
 
-    res.status(201).json({
-      name: user.displayName,
-      email: user.email,
-    });
+    res.status(201).json(user);
   } catch (error) {
     // res.status(400).json({ message: error.message });
     switch (error.code) {
@@ -46,14 +43,9 @@ export const signIn = async (req, res) => {
     const { email, password } = req.body;
     const { user } = await authService.login(email, password);
 
-    const token = await authService.createCustomToken(user.uid);
+    res.cookie("access_token", await user.getIdToken(), cookieOptions);
 
-    res.cookie("access_token", token, cookieOptions);
-
-    res.status(200).json({
-      name: user.displayName,
-      email: user.email,
-    });
+    res.status(200).json(user);
   } catch (error) {
     switch (error.code) {
       case "auth/user-not-found":
