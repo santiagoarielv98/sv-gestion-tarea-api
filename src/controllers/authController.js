@@ -61,6 +61,9 @@ export const signIn = async (req, res) => {
           message: "There is no user record corresponding to this identifier. The user may have been deleted.",
         });
         break;
+      case "auth/invalid-credential":
+        res.status(400).json({ message: "The email address is badly formatted." });
+        break;
       case "auth/invalid-email":
         res.status(400).json({ message: "The email address is badly formatted." });
         break;

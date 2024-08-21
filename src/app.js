@@ -17,8 +17,6 @@ const limiter = rateLimit({
   limit: 100,
 });
 
-console.log(process.env?.NODE_ENV);
-
 app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
