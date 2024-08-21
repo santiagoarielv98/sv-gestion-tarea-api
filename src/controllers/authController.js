@@ -16,7 +16,10 @@ export const signUp = async (req, res) => {
 
     res.cookie(AUTH_COOKIE_NAME, token, cookieOptions);
 
-    res.status(201).json(user);
+    res.status(201).json({
+      name: user.displayName,
+      email: user.email,
+    });
   } catch (error) {
     // res.status(400).json({ message: error.message });
     switch (error.code) {
@@ -43,7 +46,10 @@ export const signIn = async (req, res) => {
 
     res.cookie(AUTH_COOKIE_NAME, await user.getIdToken(), cookieOptions);
 
-    res.status(200).json(user);
+    res.status(200).json({
+      name: user.displayName,
+      email: user.email,
+    });
   } catch (error) {
     switch (error.code) {
       case "auth/user-not-found":
