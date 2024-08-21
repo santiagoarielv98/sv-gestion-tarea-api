@@ -7,7 +7,6 @@ Para la autenticación se utiliza Firebase Auth y para la autorización se utili
 ## Tabla de Contenidos
 
 - [Instalación](#instalación)
-- [Uso](#uso)
 - [API](#api)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Variables de Entorno](#variables-de-entorno)
