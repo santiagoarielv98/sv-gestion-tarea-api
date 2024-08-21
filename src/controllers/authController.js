@@ -6,7 +6,7 @@ import * as authService from "../services/authService.js";
 const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "strict",
+  sameSite: "some",
 };
 
 export const signUp = async (req, res) => {
