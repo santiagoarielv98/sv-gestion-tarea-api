@@ -7,7 +7,6 @@ const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "strict",
-  maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
 };
 
 export const signUp = async (req, res) => {
@@ -47,7 +46,9 @@ export const signIn = async (req, res) => {
     const { email, password } = req.body;
     const { user } = await authService.login(email, password);
 
-    res.cookie("access_token", await user.getIdToken(), cookieOptions);
+    const token = await authService.createCustomToken(user.uid);
+
+    res.cookie("access_token", token, cookieOptions);
 
     res.status(200).json({
       name: user.displayName,
