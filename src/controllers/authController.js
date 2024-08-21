@@ -1,10 +1,14 @@
 import { AUTH_COOKIE_NAME } from "../config/constants.js";
 import * as authService from "../services/authService.js";
 
+/**
+ * @type {import('cookie-parser').CookieParseOptions}
+ */
 const cookieOptions = {
   httpOnly: true,
-  secure: true,
-  sameSite: "none",
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict",
+  maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
 };
 
 export const signUp = async (req, res) => {
