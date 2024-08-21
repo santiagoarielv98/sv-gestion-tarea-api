@@ -2,6 +2,7 @@ import { initializeApp as adminInitializeApp, cert } from "firebase-admin/app";
 import { getAuth as adminGetAuth } from "firebase-admin/auth";
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import firebase from "../../firebase.json" assert { type: "json" };
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -12,7 +13,11 @@ const firebaseConfig = {
   appId: process.env.FIREBASE_APP_ID,
 };
 
-const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT, "base64").toString("utf-8"));
+let serviceAccount = firebase;
+
+if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+  serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT, "base64").toString("utf-8"));
+}
 
 adminInitializeApp({
   credential: cert(serviceAccount),
