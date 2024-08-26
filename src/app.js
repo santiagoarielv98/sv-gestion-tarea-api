@@ -28,4 +28,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/tasks", taskRoutes);
 
+connectDB();
+
 export default app;
