@@ -8,6 +8,7 @@ import logger from "morgan";
 import authRoutes from "./routes/authRoutes.js";
 import tagRoutes from "./routes/tagRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import connectDB from "./database/index.js";
 
 const app = express();
 
