@@ -11,11 +11,11 @@ export class TaskResponseDto {
   content?: string;
 
   @Exclude()
-  createdAt: Date;
+  createdAt?: Date;
 
   @Exclude()
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @Exclude()
-  deletedAt: Date;
+  deletedAt?: Date;
 }
