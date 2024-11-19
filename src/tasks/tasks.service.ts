@@ -20,7 +20,7 @@ export class TasksService {
   }
 
   findOne(id: number) {
-    return this.prismaService.task.findFirst({
+    return this.prismaService.task.findFirstOrThrow({
       where: { id, deletedAt: null },
     });
   }

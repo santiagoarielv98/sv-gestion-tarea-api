@@ -21,10 +21,13 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         break;
       }
       case "P2025": {
+        console.log(exception.message);
         const status = HttpStatus.NOT_FOUND;
         response.status(status).json({
           statusCode: status,
-          message: `${exception.meta.modelName} not found`,
+          message: exception.meta?.modelName
+            ? `${exception.meta.modelName} not found`
+            : message,
         });
         break;
       }
