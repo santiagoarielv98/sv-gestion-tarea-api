@@ -34,7 +34,7 @@ export class TasksService {
 
   remove(id: number) {
     return this.prismaService.task.update({
-      where: { id },
+      where: { id, deletedAt: null },
       data: { deletedAt: new Date() },
     });
   }
