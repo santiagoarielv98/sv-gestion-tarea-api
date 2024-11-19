@@ -14,25 +14,28 @@ export class TasksService {
   }
 
   findAll() {
-    return this.prismaService.task.findMany();
+    return this.prismaService.task.findMany({
+      where: { deletedAt: null },
+    });
   }
 
   findOne(id: number) {
-    return this.prismaService.task.findUnique({
-      where: { id },
+    return this.prismaService.task.findFirst({
+      where: { id, deletedAt: null },
     });
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
     return this.prismaService.task.update({
-      where: { id },
+      where: { id, deletedAt: null },
       data: updateTaskDto,
     });
   }
 
   remove(id: number) {
-    return this.prismaService.task.delete({
+    return this.prismaService.task.update({
       where: { id },
+      data: { deletedAt: new Date() },
     });
   }
 }
