@@ -24,11 +24,11 @@ function createRandomUser({ password }: { password: string }) {
   };
 }
 
-function createDemoUser() {
+function createDemoUser({ password }: { password: string }) {
   return {
     name: "Demo User",
     email: "demo@example.com",
-    password: "password",
+    password,
     tasks: {
       create: faker.helpers.multiple(createRandomTask, {
         count: faker.number.int({ min: 1, max: 15 }),
@@ -47,7 +47,7 @@ async function main() {
     count: 5,
   });
 
-  users.push(createDemoUser());
+  users.push(createDemoUser({ password }));
 
   await Promise.all(
     users.map((user) => {
