@@ -11,9 +11,8 @@ function createRandomTask() {
   };
 }
 
-function createRandomUser({ password }) {
+function createRandomUser({ password }: { password: string }) {
   return {
-    userId: faker.string.uuid(),
     name: faker.person.firstName(),
     email: faker.internet.email(),
     password,
@@ -31,9 +30,23 @@ async function main() {
     parseInt(process.env.SALT_ROUNDS)
   );
 
-  faker.helpers.multiple(() => createRandomUser({ password }), {
+  const users = faker.helpers.multiple(() => createRandomUser({ password }), {
     count: 5,
   });
+
+  // await prisma.user.createMany({
+  //   data: users,
+  // });
+
+  await Promise.all(
+    users.map((user) => {
+      return prisma.user.upsert({
+        where: { email: user.email },
+        update: {},
+        create: user,
+      });
+    })
+  );
 }
 
 main()

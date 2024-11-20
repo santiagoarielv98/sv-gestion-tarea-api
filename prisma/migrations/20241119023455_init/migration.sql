@@ -2,7 +2,7 @@
 CREATE TABLE `Task` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(191) NOT NULL,
-    `content` VARCHAR(191) NULL,
+    `content` TEXT NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
