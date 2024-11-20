@@ -7,9 +7,9 @@ import { PrismaService } from "../prisma.service";
 export class TasksService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createTaskDto: CreateTaskDto) {
+  create(createTaskDto: CreateTaskDto, userId: number) {
     return this.prismaService.task.create({
-      data: createTaskDto,
+      data: { ...createTaskDto, userId },
     });
   }
 
