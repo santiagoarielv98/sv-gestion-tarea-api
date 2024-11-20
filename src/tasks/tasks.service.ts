@@ -13,15 +13,15 @@ export class TasksService {
     });
   }
 
-  findAll() {
+  findAll(userId: number) {
     return this.prismaService.task.findMany({
-      where: { deletedAt: null },
+      where: { deletedAt: null, userId },
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: number, userId: number) {
     const task = await this.prismaService.task.findFirst({
-      where: { id, deletedAt: null },
+      where: { id, deletedAt: null, userId },
     });
     if (!task) {
       throw new NotFoundException(`Task with ID ${id} not found`);
@@ -29,16 +29,16 @@ export class TasksService {
     return task;
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto) {
-    const task = await this.findOne(id);
+  async update(id: number, updateTaskDto: UpdateTaskDto, userId: number) {
+    const task = await this.findOne(id, userId);
     return this.prismaService.task.update({
-      where: { id },
+      where: { id, userId },
       data: { ...task, ...updateTaskDto },
     });
   }
 
-  async remove(id: number) {
-    const task = await this.findOne(id);
+  async remove(id: number, userId: number) {
+    const task = await this.findOne(id, userId);
     return this.prismaService.task.update({
       where: { id },
       data: { ...task, deletedAt: new Date() },

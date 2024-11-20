@@ -33,31 +33,44 @@ export class TasksController {
   }
 
   @Get()
-  async findAll(): Promise<TaskResponseDto[]> {
-    const tasks = await this.tasksService.findAll();
+  @UseGuards(JwtAuthGuard)
+  async findAll(@CurrentUser() user: User): Promise<TaskResponseDto[]> {
+    const tasks = await this.tasksService.findAll(user.id);
     return plainToInstance(TaskResponseDto, tasks);
   }
 
   @Get(":id")
-  async findOne(@Param("id") id: string): Promise<TaskResponseDto> {
-    const task = await this.tasksService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  async findOne(
+    @Param("id") id: number,
+    @CurrentUser() user: User
+  ): Promise<TaskResponseDto> {
+    const task = await this.tasksService.findOne(id, user.id);
     return plainToInstance(TaskResponseDto, task);
   }
 
   @Patch(":id")
   @UseGuards(JwtAuthGuard)
   async update(
-    @Param("id") id: string,
-    @Body() updateTaskDto: UpdateTaskDto
+    @Param("id") id: number,
+    @Body() updateTaskDto: UpdateTaskDto,
+    @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
-    const updatedTask = await this.tasksService.update(+id, updateTaskDto);
+    const updatedTask = await this.tasksService.update(
+      id,
+      updateTaskDto,
+      user.id
+    );
     return plainToInstance(TaskResponseDto, updatedTask);
   }
 
   @Delete(":id")
   @UseGuards(JwtAuthGuard)
-  async remove(@Param("id") id: string): Promise<TaskResponseDto> {
-    const deletedTask = await this.tasksService.remove(+id);
+  async remove(
+    @Param("id") id: number,
+    @CurrentUser() user: User
+  ): Promise<TaskResponseDto> {
+    const deletedTask = await this.tasksService.remove(id, user.id);
     return plainToInstance(TaskResponseDto, deletedTask);
   }
 }
