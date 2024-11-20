@@ -24,6 +24,19 @@ function createRandomUser({ password }: { password: string }) {
   };
 }
 
+function createDemoUser() {
+  return {
+    name: "Demo User",
+    email: "demo@example.com",
+    password: "password",
+    tasks: {
+      create: faker.helpers.multiple(createRandomTask, {
+        count: faker.number.int({ min: 1, max: 15 }),
+      }),
+    },
+  };
+}
+
 async function main() {
   const password = await bcrypt.hash(
     "password",
@@ -34,9 +47,7 @@ async function main() {
     count: 5,
   });
 
-  // await prisma.user.createMany({
-  //   data: users,
-  // });
+  users.push(createDemoUser());
 
   await Promise.all(
     users.map((user) => {
