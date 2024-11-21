@@ -7,13 +7,13 @@ import { PrismaService } from "../prisma.service";
 export class TasksService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createTaskDto: CreateTaskDto, userId: number) {
+  async create(createTaskDto: CreateTaskDto, userId: number) {
     return this.prismaService.task.create({
       data: { ...createTaskDto, userId },
     });
   }
 
-  findAll(userId: number) {
+  async findAll(userId: number) {
     return this.prismaService.task.findMany({
       where: { deletedAt: null, userId },
     });
@@ -42,6 +42,17 @@ export class TasksService {
     return this.prismaService.task.update({
       where: { id },
       data: { ...task, deletedAt: new Date() },
+    });
+  }
+
+  async restore(id: number, userId: number) {
+    const task = await this.prismaService.task.findFirst({
+      where: { id, userId, deletedAt: { not: null } },
+    });
+
+    return this.prismaService.task.update({
+      where: { id },
+      data: { ...task, deletedAt: null },
     });
   }
 }

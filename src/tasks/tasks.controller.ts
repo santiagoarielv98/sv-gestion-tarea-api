@@ -73,4 +73,14 @@ export class TasksController {
     const deletedTask = await this.tasksService.remove(id, user.id);
     return plainToInstance(TaskResponseDto, deletedTask);
   }
+
+  @Patch(":id/restore")
+  @UseGuards(JwtAuthGuard)
+  async restore(
+    @Param("id") id: number,
+    @CurrentUser() user: User
+  ): Promise<TaskResponseDto> {
+    const restoredTask = await this.tasksService.restore(id, user.id);
+    return plainToInstance(TaskResponseDto, restoredTask);
+  }
 }
