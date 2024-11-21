@@ -16,6 +16,7 @@ export class TasksService {
   async findAll(userId: number) {
     return this.prismaService.task.findMany({
       where: { deletedAt: null, userId },
+      orderBy: { createdAt: "desc" },
     });
   }
 
