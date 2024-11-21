@@ -14,9 +14,9 @@ import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
 import { TaskResponseDto } from "./dto/task-response.dto";
 import { plainToInstance } from "class-transformer";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { CurrentUser } from "src/auth/current-user.decorator";
-import { User } from "src/users/interfaces/user.interface";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { CurrentUser } from "../auth/current-user.decorator";
+import { User } from "../users/interfaces/user.interface";
 
 @Controller("tasks")
 export class TasksController {
