@@ -44,7 +44,7 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    // return this.login(newUser);
-    return newUser;
+    return this.login(newUser);
+    // return newUser;
   }
 }
