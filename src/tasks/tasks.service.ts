@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
 import { PrismaService } from "../prisma.service";
-import { TagsService } from "src/tags/tags.service";
+import { TagsService } from "../tags/tags.service";
 import { TaskNotFoundException } from "./exceptions/task-not-found.exception";
-import { TagSomeNotFoundException } from "src/tags/exceptions/tag-some-not-found.exception";
+import { TagSomeNotFoundException } from "../tags/exceptions/tag-some-not-found.exception";
 
 @Injectable()
 export class TasksService {

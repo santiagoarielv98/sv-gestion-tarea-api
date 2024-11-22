@@ -1,5 +1,5 @@
 import { Exclude, Expose, Type } from "class-transformer";
-import { TagResponseDto } from "src/tags/dto/tag-response.dto";
+import { TagResponseDto } from "../../tags/dto/tag-response.dto";
 
 export class TaskResponseDto {
   @Expose()

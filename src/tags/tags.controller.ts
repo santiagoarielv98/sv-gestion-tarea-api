@@ -14,9 +14,9 @@ import {
 import { TagsService } from "./tags.service";
 import { CreateTagDto } from "./dto/create-tag.dto";
 import { UpdateTagDto } from "./dto/update-tag.dto";
-import { CurrentUser } from "src/auth/current-user.decorator";
-import { User } from "src/users/interfaces/user.interface";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { CurrentUser } from "../auth/current-user.decorator";
+import { User } from "../users/interfaces/user.interface";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { TagResponseDto } from "./dto/tag-response.dto";
 
 @Controller("tags")
