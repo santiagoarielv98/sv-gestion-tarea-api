@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   UseGuards,
+  SerializeOptions,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from "@nestjs/common";
 import { TagsService } from "./tags.service";
 import { CreateTagDto } from "./dto/create-tag.dto";
@@ -14,8 +17,13 @@ import { UpdateTagDto } from "./dto/update-tag.dto";
 import { CurrentUser } from "src/auth/current-user.decorator";
 import { User } from "src/users/interfaces/user.interface";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { TagResponseDto } from "./dto/tag-response.dto";
 
 @Controller("tags")
+@SerializeOptions({
+  type: TagResponseDto,
+})
+@UseInterceptors(ClassSerializerInterceptor)
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
