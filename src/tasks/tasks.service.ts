@@ -1,8 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
 import { PrismaService } from "../prisma.service";
 import { TagsService } from "src/tags/tags.service";
+import { TaskNotFoundException } from "./exceptions/task-not-found.exception";
+import { TagSomeNotFoundException } from "src/tags/exceptions/tag-some-not-found.exception";
 
 @Injectable()
 export class TasksService {
@@ -15,7 +17,7 @@ export class TasksService {
     const existingTags = await this.tagsService.findTagsByIds(tags, userId);
 
     if (tags.length !== existingTags.length) {
-      throw new NotFoundException("Some tags not found");
+      throw new TagSomeNotFoundException();
     }
 
     return this.prismaService.task.create({
@@ -42,7 +44,7 @@ export class TasksService {
       include: { tags: true },
     });
     if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
+      throw new TaskNotFoundException(id);
     }
     return task;
   }
@@ -55,7 +57,7 @@ export class TasksService {
     const existingTags = await this.tagsService.findTagsByIds(tags, userId);
 
     if (tags.length !== existingTags.length) {
-      throw new NotFoundException("Some tags not found");
+      throw new TagSomeNotFoundException();
     }
 
     await this.findOne(id, userId);
@@ -81,7 +83,7 @@ export class TasksService {
     });
 
     if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
+      throw new TaskNotFoundException(id);
     }
 
     return this.prismaService.task.update({

@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateTagDto } from "./dto/create-tag.dto";
 import { UpdateTagDto } from "./dto/update-tag.dto";
 import { PrismaService } from "src/prisma.service";
+import { TagNotFoundException } from "./exceptions/tag-not-found.exception";
+import { TagNotDeletedException } from "./exceptions/tag-not-deleted.exception";
 
 @Injectable()
 export class TagsService {
@@ -28,7 +30,7 @@ export class TagsService {
     });
 
     if (!tag) {
-      throw new NotFoundException(`Tag with ID ${id} not found`);
+      throw new TagNotFoundException(id);
     }
 
     return tag;
@@ -57,7 +59,7 @@ export class TagsService {
     });
 
     if (!tag) {
-      throw new NotFoundException(`Tag with ID ${id} not found`);
+      throw new TagNotDeletedException(id);
     }
 
     return this.prismaService.tag.update({
