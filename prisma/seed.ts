@@ -4,6 +4,12 @@ import * as bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
+function createRandomTag() {
+  return {
+    name: faker.lorem.word(),
+  };
+}
+
 function createRandomTask() {
   return {
     title: faker.lorem.words(),
@@ -29,6 +35,11 @@ function createDemoUser({ password }: { password: string }) {
     name: "Demo User",
     email: "demo@example.com",
     password,
+    tags: {
+      create: faker.helpers.multiple(createRandomTag, {
+        count: faker.number.int({ min: 1, max: 15 }),
+      }),
+    },
     tasks: {
       create: faker.helpers.multiple(createRandomTask, {
         count: faker.number.int({ min: 1, max: 15 }),
@@ -49,13 +60,42 @@ async function main() {
 
   users.push(createDemoUser({ password }));
 
-  await Promise.all(
+  const createUsers = await Promise.all(
     users.map((user) => {
       return prisma.user.upsert({
         where: { email: user.email },
         update: {},
         create: user,
+        include: {
+          tags: true,
+          tasks: true,
+        },
       });
+    })
+  );
+
+  await Promise.all(
+    createUsers.map(async (user) => {
+      const tasks = user.tasks;
+      const tags = user.tags;
+
+      await Promise.all(
+        tasks.map(async (task) => {
+          const randomTags = faker.helpers.arrayElements(tags, {
+            min: 1,
+            max: 5,
+          });
+
+          await prisma.task.update({
+            where: { id: task.id },
+            data: {
+              tags: {
+                connect: randomTags.map((tag) => ({ id: tag.id })),
+              },
+            },
+          });
+        })
+      );
     })
   );
 }
