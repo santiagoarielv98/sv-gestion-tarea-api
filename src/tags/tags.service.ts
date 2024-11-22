@@ -7,13 +7,14 @@ import { PrismaService } from "src/prisma.service";
 export class TagsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createTagDto: CreateTagDto, userId: number) {
+  async create(createTagDto: CreateTagDto, userId: number) {
     return this.prismaService.tag.create({
       data: { ...createTagDto, userId },
+      include: { tasks: true },
     });
   }
 
-  findAll(userId: number) {
+  async findAll(userId: number) {
     return this.prismaService.tag.findMany({
       where: {
         userId,
@@ -32,24 +33,30 @@ export class TagsService {
     });
   }
 
-  update(id: number, updateTagDto: UpdateTagDto, userId: number) {
+  async update(id: number, updateTagDto: UpdateTagDto, userId: number) {
     return this.prismaService.tag.update({
       where: { id, userId, deletedAt: null },
       data: updateTagDto,
     });
   }
 
-  remove(id: number, userId: number) {
+  async remove(id: number, userId: number) {
     return this.prismaService.tag.update({
       where: { id, userId, deletedAt: null },
       data: { deletedAt: new Date() },
     });
   }
 
-  restore(id: number, userId: number) {
+  async restore(id: number, userId: number) {
     return this.prismaService.tag.update({
-      where: { id, deletedAt: { not: null } },
+      where: { id, deletedAt: { not: null }, userId },
       data: { deletedAt: null },
+    });
+  }
+
+  async findTagsByIds(ids: number[], userId: number) {
+    return this.prismaService.tag.findMany({
+      where: { id: { in: ids }, userId, deletedAt: null },
     });
   }
 }
