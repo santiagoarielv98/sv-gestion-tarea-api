@@ -32,12 +32,14 @@ export class TasksService {
     return this.prismaService.task.findMany({
       where: { deletedAt: null, userId },
       orderBy: { createdAt: "desc" },
+      include: { tags: true },
     });
   }
 
   async findOne(id: number, userId: number) {
     const task = await this.prismaService.task.findFirst({
       where: { id, deletedAt: null, userId },
+      include: { tags: true },
     });
     if (!task) {
       throw new NotFoundException(`Task with ID ${id} not found`);
@@ -61,11 +63,12 @@ export class TasksService {
     return this.prismaService.task.update({
       where: { id, userId },
       data: { ...task, ...updateTaskDto, tags: { set: existingTags } },
+      include: { tags: true },
     });
   }
 
   async remove(id: number, userId: number) {
-    const task = await this.findOne(id, userId);
+    const { tags, ...task } = await this.findOne(id, userId);
     return this.prismaService.task.update({
       where: { id },
       data: { ...task, deletedAt: new Date() },

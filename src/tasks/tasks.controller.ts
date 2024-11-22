@@ -8,6 +8,9 @@ import {
   Delete,
   UseGuards,
   Request,
+  ClassSerializerInterceptor,
+  UseInterceptors,
+  SerializeOptions,
 } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
 import { CreateTaskDto } from "./dto/create-task.dto";
@@ -19,6 +22,10 @@ import { CurrentUser } from "../auth/current-user.decorator";
 import { User } from "../users/interfaces/user.interface";
 
 @Controller("tasks")
+@SerializeOptions({
+  type: TaskResponseDto,
+})
+@UseInterceptors(ClassSerializerInterceptor)
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
@@ -28,15 +35,13 @@ export class TasksController {
     @Body() createTaskDto: CreateTaskDto,
     @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
-    const createdTask = await this.tasksService.create(createTaskDto, user.id);
-    return plainToInstance(TaskResponseDto, createdTask);
+    return await this.tasksService.create(createTaskDto, user.id);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
   async findAll(@CurrentUser() user: User): Promise<TaskResponseDto[]> {
-    const tasks = await this.tasksService.findAll(user.id);
-    return plainToInstance(TaskResponseDto, tasks);
+    return await this.tasksService.findAll(user.id);
   }
 
   @Get(":id")
@@ -45,8 +50,7 @@ export class TasksController {
     @Param("id") id: number,
     @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
-    const task = await this.tasksService.findOne(id, user.id);
-    return plainToInstance(TaskResponseDto, task);
+    return await this.tasksService.findOne(id, user.id);
   }
 
   @Patch(":id")
@@ -56,12 +60,7 @@ export class TasksController {
     @Body() updateTaskDto: UpdateTaskDto,
     @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
-    const updatedTask = await this.tasksService.update(
-      id,
-      updateTaskDto,
-      user.id
-    );
-    return plainToInstance(TaskResponseDto, updatedTask);
+    return await this.tasksService.update(id, updateTaskDto, user.id);
   }
 
   @Delete(":id")
@@ -70,8 +69,7 @@ export class TasksController {
     @Param("id") id: number,
     @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
-    const deletedTask = await this.tasksService.remove(id, user.id);
-    return plainToInstance(TaskResponseDto, deletedTask);
+    return await this.tasksService.remove(id, user.id);
   }
 
   @Patch(":id/restore")
@@ -80,7 +78,6 @@ export class TasksController {
     @Param("id") id: number,
     @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
-    const restoredTask = await this.tasksService.restore(id, user.id);
-    return plainToInstance(TaskResponseDto, restoredTask);
+    return await this.tasksService.restore(id, user.id);
   }
 }
