@@ -58,11 +58,11 @@ export class TasksService {
       throw new NotFoundException("Some tags not found");
     }
 
-    const task = await this.findOne(id, userId);
+    await this.findOne(id, userId);
 
     return this.prismaService.task.update({
       where: { id, userId },
-      data: { ...task, ...updateTaskDto, tags: { set: existingTags } },
+      data: { ...updateTaskDto, tags: { set: existingTags } },
       include: { tags: true },
     });
   }
@@ -71,7 +71,7 @@ export class TasksService {
     const { tags, ...task } = await this.findOne(id, userId);
     return this.prismaService.task.update({
       where: { id },
-      data: { ...task, deletedAt: new Date() },
+      data: { deletedAt: new Date() },
     });
   }
 
@@ -80,9 +80,13 @@ export class TasksService {
       where: { id, userId, deletedAt: { not: null } },
     });
 
+    if (!task) {
+      throw new NotFoundException(`Task with ID ${id} not found`);
+    }
+
     return this.prismaService.task.update({
       where: { id },
-      data: { ...task, deletedAt: null },
+      data: { deletedAt: null },
     });
   }
 }
