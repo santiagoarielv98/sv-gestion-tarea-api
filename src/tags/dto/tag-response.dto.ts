@@ -1,4 +1,4 @@
-import { Expose, Exclude } from "class-transformer";
+import { Expose, Exclude, Type } from "class-transformer";
 
 export class TagResponseDto {
   @Expose()
@@ -15,4 +15,18 @@ export class TagResponseDto {
 
   @Exclude()
   deletedAt?: Date;
+}
+
+export class TagPaginationResponseDto {
+  @Expose()
+  @Type(() => TagResponseDto)
+  data: TagResponseDto[];
+
+  @Expose()
+  meta: {
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+    itemsPerPage: number;
+  };
 }

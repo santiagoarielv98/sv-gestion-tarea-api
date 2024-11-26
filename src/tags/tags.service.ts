@@ -4,6 +4,8 @@ import { UpdateTagDto } from "./dto/update-tag.dto";
 import { PrismaService } from "../prisma.service";
 import { TagNotFoundException } from "./exceptions/tag-not-found.exception";
 import { TagNotDeletedException } from "./exceptions/tag-not-deleted.exception";
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
+import { paginatePrisma } from "src/pagination/utils/pagination.util";
 
 @Injectable()
 export class TagsService {
@@ -72,5 +74,18 @@ export class TagsService {
     return this.prismaService.tag.findMany({
       where: { id: { in: ids }, userId, deletedAt: null },
     });
+  }
+
+  async paginate(
+    paginationDto: PaginationDto,
+    userId: number,
+    filters?: object
+  ) {
+    return paginatePrisma(
+      this.prismaService.tag,
+      paginationDto,
+      { deletedAt: null, ...filters, userId },
+      { createdAt: "desc" }
+    );
   }
 }

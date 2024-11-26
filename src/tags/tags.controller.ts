@@ -10,6 +10,7 @@ import {
   SerializeOptions,
   ClassSerializerInterceptor,
   UseInterceptors,
+  Query,
 } from "@nestjs/common";
 import { TagsService } from "./tags.service";
 import { CreateTagDto } from "./dto/create-tag.dto";
@@ -17,7 +18,12 @@ import { UpdateTagDto } from "./dto/update-tag.dto";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { User } from "../users/interfaces/user.interface";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { TagResponseDto } from "./dto/tag-response.dto";
+import {
+  TagResponseDto,
+  TagPaginationResponseDto,
+} from "./dto/tag-response.dto";
+import { PaginationInterceptor } from "src/pagination/pagination.interceptor";
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
 
 @Controller("tags")
 @SerializeOptions({
@@ -37,6 +43,19 @@ export class TagsController {
   @UseGuards(JwtAuthGuard)
   findAll(@CurrentUser() user: User) {
     return this.tagsService.findAll(user.id);
+  }
+
+  @Get("all")
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(PaginationInterceptor)
+  @SerializeOptions({
+    type: TagPaginationResponseDto,
+  })
+  async getAll(
+    @Query() paginationDto: PaginationDto,
+    @CurrentUser() user: User
+  ) {
+    return await this.tagsService.paginate(paginationDto, user.id);
   }
 
   @Get(":id")
