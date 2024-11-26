@@ -103,7 +103,8 @@ export class TasksService {
       this.prismaService.task,
       paginationDto,
       { deletedAt: null, ...filters, userId },
-      { createdAt: "desc" }
+      { createdAt: "desc" },
+      { tags: true }
     );
   }
 }
