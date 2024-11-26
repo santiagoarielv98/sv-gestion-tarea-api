@@ -5,6 +5,8 @@ import { PrismaService } from "../prisma.service";
 import { TagsService } from "../tags/tags.service";
 import { TaskNotFoundException } from "./exceptions/task-not-found.exception";
 import { TagSomeNotFoundException } from "../tags/exceptions/tag-some-not-found.exception";
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
+import { paginatePrisma } from "src/pagination/utils/pagination.util";
 
 @Injectable()
 export class TasksService {
@@ -90,5 +92,18 @@ export class TasksService {
       where: { id },
       data: { deletedAt: null },
     });
+  }
+
+  async paginate(
+    paginationDto: PaginationDto,
+    userId: number,
+    filters?: object
+  ) {
+    return paginatePrisma(
+      this.prismaService.task,
+      paginationDto,
+      { deletedAt: null, ...filters, userId },
+      { createdAt: "desc" }
+    );
   }
 }

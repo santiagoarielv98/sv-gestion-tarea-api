@@ -11,15 +11,21 @@ import {
   ClassSerializerInterceptor,
   UseInterceptors,
   SerializeOptions,
+  Query,
 } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
-import { TaskResponseDto } from "./dto/task-response.dto";
+import {
+  TaskPaginationResponseDto,
+  TaskResponseDto,
+} from "./dto/task-response.dto";
 import { plainToInstance } from "class-transformer";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { User } from "../users/interfaces/user.interface";
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
+import { PaginationInterceptor } from "src/pagination/pagination.interceptor";
 
 @Controller("tasks")
 @SerializeOptions({
@@ -36,6 +42,19 @@ export class TasksController {
     @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
     return await this.tasksService.create(createTaskDto, user.id);
+  }
+
+  @Get("all")
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(PaginationInterceptor)
+  @SerializeOptions({
+    type: TaskPaginationResponseDto,
+  })
+  async getAll(
+    @Query() paginationDto: PaginationDto,
+    @CurrentUser() user: User
+  ) {
+    return await this.tasksService.paginate(paginationDto, user.id);
   }
 
   @Get()

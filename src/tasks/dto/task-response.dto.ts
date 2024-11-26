@@ -24,3 +24,17 @@ export class TaskResponseDto {
   @Exclude()
   deletedAt?: Date;
 }
+
+export class TaskPaginationResponseDto {
+  @Expose()
+  @Type(() => TaskResponseDto)
+  data: TaskResponseDto[];
+
+  @Expose()
+  meta: {
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+    itemsPerPage: number;
+  };
+}
