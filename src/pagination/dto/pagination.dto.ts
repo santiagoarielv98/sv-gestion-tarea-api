@@ -1,16 +1,28 @@
+// Path: src/pagination/dto/pagination.dto.ts
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, Min, IsString } from "class-validator";
+import * as Validator from "class-validator";
+import { SortOrder } from "../enums/sort-order.enum";
 
 export class PaginationDto {
-  @IsOptional()
-  @IsInt()
+  @Validator.IsOptional()
+  @Validator.IsInt()
   @Type(() => Number)
-  @Min(1)
+  @Validator.Min(1)
   page?: number = 1;
 
-  @IsOptional()
-  @IsInt()
+  @Validator.IsOptional()
+  @Validator.IsInt()
   @Type(() => Number)
-  @Min(1)
+  @Validator.Min(1)
   limit?: number = 10;
+  // paginacion con filtros, orden y busqueda
+
+  @Validator.IsOptional()
+  @Validator.IsString()
+  @Validator.IsEnum(SortOrder)
+  sort?: SortOrder = SortOrder.ASC;
+
+  @Validator.IsOptional()
+  @Validator.IsString()
+  q?: string;
 }
