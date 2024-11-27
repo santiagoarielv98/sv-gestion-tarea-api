@@ -6,6 +6,7 @@ import { TagNotFoundException } from "./exceptions/tag-not-found.exception";
 import { TagNotDeletedException } from "./exceptions/tag-not-deleted.exception";
 import { PaginationDto } from "src/pagination/dto/pagination.dto";
 import { paginatePrisma } from "src/pagination/utils/pagination.util";
+import { SortOrder } from "src/pagination/enums/sort-order.enum";
 
 @Injectable()
 export class TagsService {
@@ -76,16 +77,20 @@ export class TagsService {
     });
   }
 
-  async paginate(
-    paginationDto: PaginationDto,
-    userId: number,
-    filters?: object
-  ) {
+  async paginate(paginationDto: PaginationDto, userId: number) {
+    const q = paginationDto.q;
+    const order = paginationDto.order || SortOrder.DESC;
+    const sort = paginationDto.sort || "createdAt";
+
     return paginatePrisma(
       this.prismaService.tag,
       paginationDto,
-      { deletedAt: null, ...filters, userId },
-      { createdAt: "desc" }
+      {
+        userId,
+        deletedAt: null,
+        OR: [{ name: { contains: q } }],
+      },
+      { [sort]: order }
     );
   }
 }

@@ -26,5 +26,5 @@ export class PaginationDto {
 
   @Validator.IsOptional()
   @Validator.IsString()
-  q?: string;
+  q?: string = "";
 }
