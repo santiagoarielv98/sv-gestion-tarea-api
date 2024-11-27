@@ -18,7 +18,11 @@ export class PaginationDto {
   @Validator.IsOptional()
   @Validator.IsString()
   @Validator.IsEnum(SortOrder)
-  sort?: SortOrder = SortOrder.ASC;
+  order?: SortOrder;
+
+  @Validator.IsOptional()
+  @Validator.IsString()
+  sort?: string;
 
   @Validator.IsOptional()
   @Validator.IsString()

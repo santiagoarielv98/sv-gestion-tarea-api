@@ -1,12 +1,13 @@
 import { Injectable } from "@nestjs/common";
+import { PaginationDto } from "src/pagination/dto/pagination.dto";
+import { SortOrder } from "src/pagination/enums/sort-order.enum";
+import { paginatePrisma } from "src/pagination/utils/pagination.util";
+import { PrismaService } from "../prisma.service";
+import { TagSomeNotFoundException } from "../tags/exceptions/tag-some-not-found.exception";
+import { TagsService } from "../tags/tags.service";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
-import { PrismaService } from "../prisma.service";
-import { TagsService } from "../tags/tags.service";
 import { TaskNotFoundException } from "./exceptions/task-not-found.exception";
-import { TagSomeNotFoundException } from "../tags/exceptions/tag-some-not-found.exception";
-import { PaginationDto } from "src/pagination/dto/pagination.dto";
-import { paginatePrisma } from "src/pagination/utils/pagination.util";
 
 @Injectable()
 export class TasksService {
@@ -94,16 +95,24 @@ export class TasksService {
     });
   }
 
-  async paginate(
-    paginationDto: PaginationDto,
-    userId: number,
-    filters?: object
-  ) {
+  async paginate(paginationDto: PaginationDto, userId: number) {
+    const q = paginationDto.q;
+    const order = paginationDto.order || SortOrder.DESC;
+    const sort = paginationDto.sort || "createdAt";
+
     return paginatePrisma(
       this.prismaService.task,
       paginationDto,
-      { deletedAt: null, ...filters, userId },
-      { createdAt: "desc" },
+      {
+        userId,
+        deletedAt: null,
+        OR: [
+          { title: { contains: q } },
+          { content: { contains: q } },
+          { tags: { some: { name: { contains: q } } } },
+        ],
+      },
+      { [sort]: order },
       { tags: true }
     );
   }
