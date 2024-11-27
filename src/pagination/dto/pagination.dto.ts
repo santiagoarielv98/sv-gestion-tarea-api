@@ -1,4 +1,3 @@
-// Path: src/pagination/dto/pagination.dto.ts
 import { Type } from "class-transformer";
 import * as Validator from "class-validator";
 import { SortOrder } from "../enums/sort-order.enum";
@@ -15,7 +14,6 @@ export class PaginationDto {
   @Type(() => Number)
   @Validator.Min(1)
   limit?: number = 10;
-  // paginacion con filtros, orden y busqueda
 
   @Validator.IsOptional()
   @Validator.IsString()
