@@ -1,4 +1,4 @@
-import { InvalidFieldForSortingException } from "exeptions/invalid-field-for-sorting.exception";
+import { InvalidFieldForSortingException } from "../exeptions/invalid-field-for-sorting.exception";
 import { PaginationDto } from "../dto/pagination.dto";
 import { Prisma } from "@prisma/client";
 
