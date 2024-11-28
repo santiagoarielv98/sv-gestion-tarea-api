@@ -24,8 +24,8 @@ import { plainToInstance } from "class-transformer";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { User } from "../users/interfaces/user.interface";
-import { PaginationDto } from "src/pagination/dto/pagination.dto";
-import { PaginationInterceptor } from "src/pagination/pagination.interceptor";
+import { PaginationDto } from "../pagination/dto/pagination.dto";
+import { PaginationInterceptor } from "../pagination/pagination.interceptor";
 
 @Controller("tasks")
 @SerializeOptions({

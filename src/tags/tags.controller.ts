@@ -22,8 +22,8 @@ import {
   TagResponseDto,
   TagPaginationResponseDto,
 } from "./dto/tag-response.dto";
-import { PaginationInterceptor } from "src/pagination/pagination.interceptor";
-import { PaginationDto } from "src/pagination/dto/pagination.dto";
+import { PaginationInterceptor } from "../pagination/pagination.interceptor";
+import { PaginationDto } from "../pagination/dto/pagination.dto";
 
 @Controller("tags")
 @SerializeOptions({

@@ -4,9 +4,9 @@ import { UpdateTagDto } from "./dto/update-tag.dto";
 import { PrismaService } from "../prisma.service";
 import { TagNotFoundException } from "./exceptions/tag-not-found.exception";
 import { TagNotDeletedException } from "./exceptions/tag-not-deleted.exception";
-import { PaginationDto } from "src/pagination/dto/pagination.dto";
-import { paginatePrisma } from "src/pagination/utils/pagination.util";
-import { SortOrder } from "src/pagination/enums/sort-order.enum";
+import { PaginationDto } from "../pagination/dto/pagination.dto";
+import { paginatePrisma } from "../pagination/utils/pagination.util";
+import { SortOrder } from "../pagination/enums/sort-order.enum";
 
 @Injectable()
 export class TagsService {

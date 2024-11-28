@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { PaginationDto } from "src/pagination/dto/pagination.dto";
-import { SortOrder } from "src/pagination/enums/sort-order.enum";
-import { paginatePrisma } from "src/pagination/utils/pagination.util";
+import { PaginationDto } from "../pagination/dto/pagination.dto";
+import { SortOrder } from "../pagination/enums/sort-order.enum";
+import { paginatePrisma } from "../pagination/utils/pagination.util";
 import { PrismaService } from "../prisma.service";
 import { TagSomeNotFoundException } from "../tags/exceptions/tag-some-not-found.exception";
 import { TagsService } from "../tags/tags.service";
