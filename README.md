@@ -5,6 +5,10 @@ Esta API permite a los usuarios registrarse, iniciar sesión, crear, leer, actua
 Para la autenticación se utiliza JWT. Para el almacenamiento de datos se utiliza una base de datos PostgreSQL alojada en Supabase.
 La API cuenta con documentación generada automáticamente con Swagger.
 
+# Demo
+
+Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv-gestion-tarea-api.vercel.app/api-docs](https://sv-gestion-tarea-api.vercel.app/api-docs)
+
 ## Tabla de Contenidos
 
 - [Instalación](#instalación)
@@ -43,8 +47,8 @@ La API cuenta con documentación generada automáticamente con Swagger.
    ```bash
    npm run start:dev
    ```
-7. La API estará disponible en `http://localhost:3000`.
-8. Puedes acceder a la documentación de la API en `http://localhost:3000/api-docs`.
+7. La API estará disponible en `http://localhost:3000/api` por defecto.
+8. Puedes acceder a la documentación de la API en `http://localhost:3000/`.
 
 ## API
 
