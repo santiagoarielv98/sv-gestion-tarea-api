@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import * as bcrypt from "bcrypt";
+import { userDemoConfig } from "src/config/user-demo.config";
 
 const prisma = new PrismaClient();
 
@@ -32,8 +33,8 @@ function createRandomUser({ password }: { password: string }) {
 
 function createDemoUser({ password }: { password: string }) {
   return {
-    name: "Demo User",
-    email: "demo@example.com",
+    name: userDemoConfig.name,
+    email: userDemoConfig.email,
     password,
     tags: {
       create: faker.helpers.multiple(createRandomTag, {
@@ -50,7 +51,7 @@ function createDemoUser({ password }: { password: string }) {
 
 async function main() {
   const password = await bcrypt.hash(
-    "password",
+    userDemoConfig.password,
     parseInt(process.env.SALT_ROUNDS)
   );
 

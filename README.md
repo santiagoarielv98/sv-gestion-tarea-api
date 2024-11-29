@@ -1,25 +1,23 @@
 # SV-Gestion-Tarea-API
 
-API para la gestión de tareas y etiquetas, desarrollada con Node.js, Express y MongoDB.
-Esta API permite a los usuarios registrarse, iniciar sesión, crear, actualizar y eliminar tareas y etiquetas, así como también cambiar el estado de las tareas y activar o desactivar las etiquetas.
-Para la autenticación se utiliza Firebase Auth y para la autorización se utiliza Firebase Admin SDK.
+API para la gestión de tareas y etiquetas, desarrollada con Nest.js, Prisma y Supabase.
+Esta API permite a los usuarios registrarse, iniciar sesión, crear, leer, actualizar y eliminar tareas y etiquetas.
+Para la autenticación se utiliza JWT. Para el almacenamiento de datos se utiliza una base de datos PostgreSQL alojada en Supabase.
+La API cuenta con documentación generada automáticamente con Swagger.
 
 ## Tabla de Contenidos
 
 - [Instalación](#instalación)
 - [API](#api)
-- [Estructura del Proyecto](#estructura-del-proyecto)
 - [Variables de Entorno](#variables-de-entorno)
-- [Pruebas](#pruebas)
 
 ## Instalación
 
 ### Requisitos Previos
 
-- Node.js (v20 o superior)
+- Node.js (v20 o superisor)
 - npm
-- MongoDB
-- Credenciales de Firebase y Firebase Admin SDK
+- Supabase
 
 ### Pasos de Instalación
 
@@ -37,80 +35,49 @@ Para la autenticación se utiliza Firebase Auth y para la autorización se utili
    ```
 4. Crea un archivo `.env` en la raíz del proyecto y copia el contenido del archivo `.env.example`.
 5. Configura las variables de entorno en el archivo `.env`.
-   - Nota: Para la variable `FIREBASE_SERVICE_ACCOUNT` se debe convertir el archivo `firebase.json` a base64 y pegar el contenido en el archivo `.env`. o bien, cargar el archivo `firebase.json` en la raíz del proyecto y dejar la variable `FIREBASE_SERVICE_ACCOUNT` vacía.
 6. Inicia el servidor:
    ```bash
    npm start
    ```
    o
    ```bash
-   npm run dev
+   npm run start:dev
    ```
-7. La API estará disponible en `http://localhost:8080`.
+7. La API estará disponible en `http://localhost:3000`.
+8. Puedes acceder a la documentación de la API en `http://localhost:3000/api-docs`.
 
 ## API
 
 ### Endpoints
 
-- `POST /api/v1/auth/signup`: Registrar un nuevo usuario.
-- `POST /api/v1/auth/signin`: Iniciar sesión.
-- `POST /api/v1/auth/signout`: Cerrar sesión.
-- `GET /api/v1/auth/check`: Verificar si el token es válido.
+- `POST /api/auth/register`: Registrar un nuevo usuario.
+- `POST /api/auth/login`: Iniciar sesión.
+- `POST /api/auth/logout`: Cerrar sesión.
+- `GET /api/auth/profile`: Obtener el perfil del usuario autenticado.
 
-- `POST /api/v1/tags`: Crear una nueva etiqueta.
-- `GET /api/v1/tags`: Obtener todas las etiquetas.
-- `GET /api/v1/tags/:tagId`: Obtener una etiqueta por ID.
-- `PUT /api/v1/tags/:tagId`: Actualizar una etiqueta por ID.
-- `DELETE /api/v1/tags/:tagId`: Eliminar una etiqueta por ID. (Soft delete)
-- `PATCH /api/v1/tags/:tagId/activate`: Activar una etiqueta por ID.
+- `POST /api/tags`: Crear una nueva etiqueta.
+- `GET /api/tags`: Obtener todas las etiquetas.
+- `GET /api/tags/all`: Obtener todas las etiquetas de forma paginada.
+- `GET /api/tags/:tagId`: Obtener una etiqueta por ID.
+- `PATCH /api/tags/:tagId`: Actualizar una etiqueta por ID.
+- `DELETE /api/tags/:tagId`: Eliminar una etiqueta por ID. (Soft delete)
+- `PATCH /api/tags/:tagId/restore`: Activar una etiqueta por ID.
 
-- `PUT /api/v1/tasks/:taskId`: Actualizar una tarea por ID.
-- `DELETE /api/v1/tasks/:taskId`: Eliminar una tarea por ID. (Soft delete)
-- `PATCH /api/v1/tasks/:taskId/activate`: Activar una tarea por ID.
-- `PATCH /api/v1/tasks/:taskId/toggle`: Cambiar el estado de una tarea por ID.
-
-## Estructura del Proyecto
-
-```plaintext
-tu-repositorio/
-├── src/
-│   ├── config/
-│   ├── controllers/
-│   ├── middlewares/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── tests/
-│   ├── utils/
-│   └── app.js
-├── tests/
-├── .env.example
-├── index.js # Punto de entrada de la aplicación
-├── package.json
-├── README.md
-└── seeds.js
-```
+- `POST /api/tasks`: Crear una nueva tarea.
+- `GET /api/tasks`: Obtener todas las tareas.
+- `GET /api/tasks/all`: Obtener todas las tareas de forma paginada.
+- `GET /api/tasks/:taskId`: Obtener una tarea por ID.
+- `PATCH /api/tasks/:taskId`: Actualizar una tarea por ID.
+- `DELETE /api/tasks/:taskId`: Eliminar una tarea por ID. (Soft delete)
+- `PATCH /api/tasks/:taskId/restore`: Restaurar una tarea por ID.
 
 ## Variables de Entorno
 
 Las siguientes variables de entorno son necesarias para ejecutar el proyecto:
 
-- `PORT`: Puerto en el que corre la aplicación.
+- `DATABASE_URL`: URL de la base de datos.
+- `JWT_SECRET`: Clave secreta para firmar los tokens JWT.
 
-- `FIREBASE_API_KEY`: API Key de Firebase.
-- `FIREBASE_AUTH_DOMAIN`: Auth Domain de Firebase.
-- `FIREBASE_PROJECT_ID`: Project ID de Firebase.
-- `FIREBASE_STORAGE_BUCKET`: Storage Bucket de Firebase.
-- `FIREBASE_MESSAGING_SENDER_ID`: Messaging Sender ID de Firebase.
-- `FIREBASE_APP_ID`: App ID de Firebase.
-- `FIREBASE_SERVICE_ACCOUNT`: Credenciales de Firebase Admin SDK.
-- `MONGO_URI`: URI de la base de datos
-- `ALLOWED_ORIGIN`: Origen permitido para las peticiones.
-
-## Pruebas
-
-Para ejecutar las pruebas, usa el siguiente comando:
-
-```bash
-npm test
-```
+- `JWT_EXPIRATION`: Tiempo de expiración de los tokens JWT. Por defecto es `1d`.
+- `PORT`: Puerto en el que corre la aplicación. Por defecto es `3000`.
+- `SALT_ROUNDS`: Número de rondas para el algoritmo de encriptación de contraseñas. Por defecto es `10`.

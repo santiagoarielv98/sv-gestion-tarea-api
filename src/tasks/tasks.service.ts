@@ -8,6 +8,7 @@ import { TagsService } from "../tags/tags.service";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { UpdateTaskDto } from "./dto/update-task.dto";
 import { TaskNotFoundException } from "./exceptions/task-not-found.exception";
+import { TaskNotDeletedException } from "./exceptions/task-not-deleted.exception";
 
 @Injectable()
 export class TasksService {
@@ -86,7 +87,7 @@ export class TasksService {
     });
 
     if (!task) {
-      throw new TaskNotFoundException(id);
+      throw new TaskNotDeletedException(id);
     }
 
     return this.prismaService.task.update({
