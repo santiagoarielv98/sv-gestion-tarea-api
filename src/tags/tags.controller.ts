@@ -46,6 +46,16 @@ export class TagsController {
     description: "Etiqueta creada exitosamente",
     type: TagResponseDto,
   })
+  @ApiBadRequestResponse({
+    description: "Error de validación",
+    schema: {
+      example: {
+        statusCode: 400,
+        message: ["name debe ser un string", "name no debe estar vacío"],
+        error: "Bad Request",
+      },
+    },
+  })
   create(@Body() createTagDto: CreateTagDto, @CurrentUser() user: User) {
     return this.tagsService.create(createTagDto, user.id);
   }
@@ -143,6 +153,16 @@ export class TagsController {
     example: {
       statusCode: 400,
       message: "Etiqueta con ID 1 no encontrada",
+    },
+  })
+  @ApiBadRequestResponse({
+    description: "Error de validación",
+    schema: {
+      example: {
+        statusCode: 400,
+        message: ["name debe ser un string", "name no debe estar vacío"],
+        error: "Bad Request",
+      },
     },
   })
   update(

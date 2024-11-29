@@ -47,6 +47,16 @@ export class TasksController {
     description: "Tarea creada exitosamente",
     type: TaskResponseDto,
   })
+  @ApiBadRequestResponse({
+    description: "Error de validación",
+    schema: {
+      example: {
+        statusCode: 400,
+        message: ["title debe ser un string", "title no debe estar vacío"],
+        error: "Bad Request",
+      },
+    },
+  })
   async create(
     @Body() createTaskDto: CreateTaskDto,
     @CurrentUser() user: User
@@ -150,6 +160,16 @@ export class TasksController {
     example: {
       statusCode: 404,
       message: "Tarea con ID 1 no encontrada",
+    },
+  })
+  @ApiBadRequestResponse({
+    description: "Error de validación",
+    schema: {
+      example: {
+        statusCode: 400,
+        message: ["title debe ser un string", "title no debe estar vacío"],
+        error: "Bad Request",
+      },
     },
   })
   async update(
