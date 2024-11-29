@@ -14,6 +14,7 @@ import {
 } from "@nestjs/common";
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -37,6 +38,7 @@ import { TagsService } from "./tags.service";
   type: TagResponseDto,
 })
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiBearerAuth()
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 

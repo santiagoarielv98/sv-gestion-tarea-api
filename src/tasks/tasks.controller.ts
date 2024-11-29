@@ -14,6 +14,7 @@ import {
 } from "@nestjs/common";
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -38,6 +39,7 @@ import { TasksService } from "./tasks.service";
   type: TaskResponseDto,
 })
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiBearerAuth()
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 

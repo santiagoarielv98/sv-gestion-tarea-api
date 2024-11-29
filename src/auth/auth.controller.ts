@@ -51,7 +51,6 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post("logout")
-  @ApiBearerAuth()
   @ApiUnauthorizedResponse({ description: "Cierre de sesión exitoso" })
   async logout(@Request() req) {
     return req.logout();
