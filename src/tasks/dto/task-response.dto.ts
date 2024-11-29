@@ -1,7 +1,7 @@
 import { Exclude, Expose, Type } from "class-transformer";
 import { TagResponseDto } from "../../tags/dto/tag-response.dto";
 import { ApiProperty } from "@nestjs/swagger";
-import { MetaDto } from "src/pagination/dto/meta.dto";
+import { MetaDto } from "../../pagination/dto/meta.dto";
 
 export class TaskResponseDto {
   @Expose()

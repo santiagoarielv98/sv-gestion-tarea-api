@@ -20,7 +20,7 @@ import {
   ApiOkResponse,
   ApiQuery,
 } from "@nestjs/swagger";
-import { SortOrder } from "src/pagination/enums/sort-order.enum";
+import { SortOrder } from "../pagination/enums/sort-order.enum";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { PaginationDto } from "../pagination/dto/pagination.dto";

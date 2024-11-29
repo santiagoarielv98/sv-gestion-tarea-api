@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose, Exclude, Type } from "class-transformer";
-import { MetaDto } from "src/pagination/dto/meta.dto";
+import { MetaDto } from "../../pagination/dto/meta.dto";
 
 export class TagResponseDto {
   @Expose()

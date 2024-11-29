@@ -6,7 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-import { userDemoConfig } from "src/config/user-demo.config";
+import { userDemoConfig } from "../../config/user-demo.config";
 
 export class LoginRequestDto {
   @IsNotEmpty()
