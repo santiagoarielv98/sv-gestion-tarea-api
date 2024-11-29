@@ -221,4 +221,24 @@ export class TasksController {
   ): Promise<TaskResponseDto> {
     return await this.tasksService.restore(id, user.id);
   }
+
+  @Patch(":id/toggle")
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: "Estado de la tarea cambiado exitosamente",
+    type: TaskResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: "Tarea no encontrada",
+    example: {
+      statusCode: 404,
+      message: "Tarea con ID 1 no encontrada",
+    },
+  })
+  async toggle(
+    @Param("id") id: number,
+    @CurrentUser() user: User
+  ): Promise<TaskResponseDto> {
+    return await this.tasksService.toggle(id, user.id);
+  }
 }

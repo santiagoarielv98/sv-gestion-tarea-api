@@ -66,6 +66,7 @@ Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv
 - `PATCH /api/tags/:tagId`: Actualizar una etiqueta por ID.
 - `DELETE /api/tags/:tagId`: Eliminar una etiqueta por ID. (Soft delete)
 - `PATCH /api/tags/:tagId/restore`: Activar una etiqueta por ID.
+- `POST /api/tags/:tagId/toggle`: Alternar el estado de una etiqueta por ID.
 
 - `POST /api/tasks`: Crear una nueva tarea.
 - `GET /api/tasks`: Obtener todas las tareas.

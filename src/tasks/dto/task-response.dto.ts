@@ -1,7 +1,8 @@
-import { Exclude, Expose, Type } from "class-transformer";
-import { TagResponseDto } from "../../tags/dto/tag-response.dto";
 import { ApiProperty } from "@nestjs/swagger";
+import { Exclude, Expose, Type } from "class-transformer";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { MetaDto } from "../../pagination/dto/meta.dto";
+import { TagResponseDto } from "../../tags/dto/tag-response.dto";
 
 export class TaskResponseDto {
   @Expose()
@@ -10,6 +11,8 @@ export class TaskResponseDto {
     example: 1,
     default: 1,
   })
+  @IsNotEmpty()
+  @IsNumber()
   id: number;
 
   @Expose()
@@ -18,6 +21,8 @@ export class TaskResponseDto {
     example: "Comprar leche",
     default: "Comprar leche",
   })
+  @IsNotEmpty()
+  @IsString()
   title: string;
 
   @Expose()
@@ -27,7 +32,9 @@ export class TaskResponseDto {
     default: "Leche descremada",
     required: false,
   })
-  content?: string;
+  @IsOptional()
+  @IsString()
+  content?: string | null;
 
   @Expose()
   @Type(() => TagResponseDto)

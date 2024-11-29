@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose, Exclude, Type } from "class-transformer";
 import { MetaDto } from "../../pagination/dto/meta.dto";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class TagResponseDto {
   @Expose()
@@ -9,6 +10,8 @@ export class TagResponseDto {
     example: 1,
     default: 1,
   })
+  @IsNotEmpty()
+  @IsNumber()
   id: number;
 
   @Expose()
@@ -17,6 +20,8 @@ export class TagResponseDto {
     example: "Node.js",
     default: "Node.js",
   })
+  @IsNotEmpty()
+  @IsString()
   name: string;
 
   @Exclude()
