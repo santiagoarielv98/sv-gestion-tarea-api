@@ -2,7 +2,8 @@
 
 API para la gestión de tareas y etiquetas, desarrollada con Nest.js, Prisma y Supabase.
 Esta API permite a los usuarios registrarse, iniciar sesión, crear, leer, actualizar y eliminar tareas y etiquetas.
-Para la autenticación se utiliza JWT.
+Para la autenticación se utiliza JWT. Para el almacenamiento de datos se utiliza una base de datos PostgreSQL alojada en Supabase.
+La API cuenta con documentación generada automáticamente con Swagger.
 
 ## Tabla de Contenidos
 
@@ -16,7 +17,7 @@ Para la autenticación se utiliza JWT.
 
 - Node.js (v20 o superisor)
 - npm
-- MongoDB
+- Supabase
 
 ### Pasos de Instalación
 
@@ -43,6 +44,7 @@ Para la autenticación se utiliza JWT.
    npm run start:dev
    ```
 7. La API estará disponible en `http://localhost:3000`.
+8. Puedes acceder a la documentación de la API en `http://localhost:3000/api-docs`.
 
 ## API
 
@@ -73,9 +75,9 @@ Para la autenticación se utiliza JWT.
 
 Las siguientes variables de entorno son necesarias para ejecutar el proyecto:
 
-- `PORT`: Puerto en el que corre la aplicación.
-
 - `DATABASE_URL`: URL de la base de datos.
-- `SALT_ROUNDS`: Número de rondas para el algoritmo de encriptación de contraseñas.
 - `JWT_SECRET`: Clave secreta para firmar los tokens JWT.
-- `JWT_EXPIRATION`: Tiempo de expiración de los tokens JWT.
+
+- `JWT_EXPIRATION`: Tiempo de expiración de los tokens JWT. Por defecto es `1d`.
+- `PORT`: Puerto en el que corre la aplicación. Por defecto es `3000`.
+- `SALT_ROUNDS`: Número de rondas para el algoritmo de encriptación de contraseñas. Por defecto es `10`.
