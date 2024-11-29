@@ -1,31 +1,37 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Request,
   ClassSerializerInterceptor,
-  UseInterceptors,
-  SerializeOptions,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
+  SerializeOptions,
+  UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
-import { TasksService } from "./tasks.service";
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiQuery,
+} from "@nestjs/swagger";
+import { SortOrder } from "src/pagination/enums/sort-order.enum";
+import { CurrentUser } from "../auth/current-user.decorator";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { PaginationDto } from "../pagination/dto/pagination.dto";
+import { PaginationInterceptor } from "../pagination/pagination.interceptor";
+import { User } from "../users/interfaces/user.interface";
 import { CreateTaskDto } from "./dto/create-task.dto";
-import { UpdateTaskDto } from "./dto/update-task.dto";
 import {
   TaskPaginationResponseDto,
   TaskResponseDto,
 } from "./dto/task-response.dto";
-import { plainToInstance } from "class-transformer";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { CurrentUser } from "../auth/current-user.decorator";
-import { User } from "../users/interfaces/user.interface";
-import { PaginationDto } from "../pagination/dto/pagination.dto";
-import { PaginationInterceptor } from "../pagination/pagination.interceptor";
+import { UpdateTaskDto } from "./dto/update-task.dto";
+import { TasksService } from "./tasks.service";
 
 @Controller("tasks")
 @SerializeOptions({
@@ -37,11 +43,26 @@ export class TasksController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: "Tarea creada exitosamente",
+    type: TaskResponseDto,
+  })
   async create(
     @Body() createTaskDto: CreateTaskDto,
     @CurrentUser() user: User
   ): Promise<TaskResponseDto> {
     return await this.tasksService.create(createTaskDto, user.id);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: "Listado de tareas",
+    type: TaskResponseDto,
+    isArray: true,
+  })
+  async findAll(@CurrentUser() user: User): Promise<TaskResponseDto[]> {
+    return await this.tasksService.findAll(user.id);
   }
 
   @Get("all")
@@ -50,6 +71,47 @@ export class TasksController {
   @SerializeOptions({
     type: TaskPaginationResponseDto,
   })
+  @ApiOkResponse({
+    description: "Listado de tareas paginado",
+    type: TaskPaginationResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: "Campo inválido para ordenar",
+    schema: {
+      example: {
+        statusCode: 400,
+        message: "Campo inválido para ordenar: invalidField",
+      },
+    },
+  })
+  @ApiQuery({
+    name: "page",
+    required: false,
+    type: Number,
+    description: "Número de página",
+    default: 1,
+  })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    type: Number,
+    description: "Número de elementos por página",
+    default: 10,
+  })
+  @ApiQuery({
+    name: "order",
+    required: false,
+    description: "Ordenar de forma ascendente (ASC) o descendente (DESC)",
+    enum: SortOrder,
+    default: SortOrder.DESC,
+  })
+  @ApiQuery({
+    name: "sort",
+    required: false,
+    type: String,
+    description: "Campo por el cual ordenar",
+    default: "createdAt",
+  })
   async getAll(
     @Query() paginationDto: PaginationDto,
     @CurrentUser() user: User
@@ -57,14 +119,19 @@ export class TasksController {
     return await this.tasksService.paginate(paginationDto, user.id);
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  async findAll(@CurrentUser() user: User): Promise<TaskResponseDto[]> {
-    return await this.tasksService.findAll(user.id);
-  }
-
   @Get(":id")
   @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: "Tarea encontrada",
+    type: TaskResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: "Tarea no encontrada",
+    example: {
+      statusCode: 404,
+      message: "Tarea con ID 1 no encontrada",
+    },
+  })
   async findOne(
     @Param("id") id: number,
     @CurrentUser() user: User
@@ -74,6 +141,17 @@ export class TasksController {
 
   @Patch(":id")
   @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: "Tarea actualizada exitosamente",
+    type: TaskResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: "Tarea no encontrada",
+    example: {
+      statusCode: 404,
+      message: "Tarea con ID 1 no encontrada",
+    },
+  })
   async update(
     @Param("id") id: number,
     @Body() updateTaskDto: UpdateTaskDto,
@@ -84,6 +162,17 @@ export class TasksController {
 
   @Delete(":id")
   @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: "Tarea eliminada exitosamente",
+    type: TaskResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: "Tarea no encontrada",
+    example: {
+      statusCode: 404,
+      message: "Tarea con ID 1 no encontrada",
+    },
+  })
   async remove(
     @Param("id") id: number,
     @CurrentUser() user: User
@@ -93,6 +182,17 @@ export class TasksController {
 
   @Patch(":id/restore")
   @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: "Tarea restaurada exitosamente",
+    type: TaskResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: "Tarea no eliminada",
+    example: {
+      statusCode: 404,
+      message: "Tarea con ID 1 no eliminada",
+    },
+  })
   async restore(
     @Param("id") id: number,
     @CurrentUser() user: User

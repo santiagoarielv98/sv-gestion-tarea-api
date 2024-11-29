@@ -177,7 +177,7 @@ export class TagsController {
     type: TagResponseDto,
   })
   @ApiNotFoundResponse({
-    description: "Etiqueta no encontrada",
+    description: "Etiqueta no eliminada",
     example: {
       statusCode: 400,
       message: "Etiqueta con ID 1 no eliminada",
