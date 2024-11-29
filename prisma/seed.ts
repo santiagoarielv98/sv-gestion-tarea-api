@@ -84,8 +84,8 @@ async function main() {
       await Promise.all(
         tasks.map(async (task) => {
           const randomTags = faker.helpers.arrayElements(tags, {
-            min: 15,
-            max: 55,
+            min: 1,
+            max: 5,
           });
 
           await prisma.task.update({
