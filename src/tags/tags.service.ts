@@ -90,7 +90,7 @@ export class TagsService {
         deletedAt: null,
         OR: [{ name: { contains: q } }],
       },
-      { [sort]: order }
+      { [sort]: order },
     );
   }
 }

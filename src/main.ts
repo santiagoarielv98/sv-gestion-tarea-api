@@ -14,12 +14,12 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-    })
+    }),
   );
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(app.get(Reflector), {
       excludeExtraneousValues: true,
-    })
+    }),
   );
 
   const config = new DocumentBuilder()

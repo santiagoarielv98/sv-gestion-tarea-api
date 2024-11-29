@@ -122,7 +122,7 @@ export class TagsController {
   })
   async getAll(
     @Query() paginationDto: PaginationDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     return await this.tagsService.paginate(paginationDto, user.id);
   }
@@ -170,7 +170,7 @@ export class TagsController {
   update(
     @Param("id") id: number,
     @Body() updateTagDto: UpdateTagDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     return this.tagsService.update(id, updateTagDto, user.id);
   }

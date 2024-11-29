@@ -14,7 +14,7 @@ import { TaskNotDeletedException } from "./exceptions/task-not-deleted.exception
 export class TasksService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly tagsService: TagsService
+    private readonly tagsService: TagsService,
   ) {}
 
   async create({ tags = [], ...createTaskDto }: CreateTaskDto, userId: number) {
@@ -56,7 +56,7 @@ export class TasksService {
   async update(
     id: number,
     { tags = [], ...updateTaskDto }: UpdateTaskDto,
-    userId: number
+    userId: number,
   ) {
     const existingTags = await this.tagsService.findTagsByIds(tags, userId);
 
@@ -114,7 +114,7 @@ export class TasksService {
         ],
       },
       { [sort]: order },
-      { tags: true }
+      { tags: true },
     );
   }
 

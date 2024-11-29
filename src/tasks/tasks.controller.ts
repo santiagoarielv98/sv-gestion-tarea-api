@@ -61,7 +61,7 @@ export class TasksController {
   })
   async create(
     @Body() createTaskDto: CreateTaskDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ): Promise<TaskResponseDto> {
     return await this.tasksService.create(createTaskDto, user.id);
   }
@@ -126,7 +126,7 @@ export class TasksController {
   })
   async getAll(
     @Query() paginationDto: PaginationDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     return await this.tasksService.paginate(paginationDto, user.id);
   }
@@ -146,7 +146,7 @@ export class TasksController {
   })
   async findOne(
     @Param("id") id: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ): Promise<TaskResponseDto> {
     return await this.tasksService.findOne(id, user.id);
   }
@@ -177,7 +177,7 @@ export class TasksController {
   async update(
     @Param("id") id: number,
     @Body() updateTaskDto: UpdateTaskDto,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ): Promise<TaskResponseDto> {
     return await this.tasksService.update(id, updateTaskDto, user.id);
   }
@@ -197,7 +197,7 @@ export class TasksController {
   })
   async remove(
     @Param("id") id: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ): Promise<TaskResponseDto> {
     return await this.tasksService.remove(id, user.id);
   }
@@ -217,7 +217,7 @@ export class TasksController {
   })
   async restore(
     @Param("id") id: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ): Promise<TaskResponseDto> {
     return await this.tasksService.restore(id, user.id);
   }
@@ -237,7 +237,7 @@ export class TasksController {
   })
   async toggle(
     @Param("id") id: number,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ): Promise<TaskResponseDto> {
     return await this.tasksService.toggle(id, user.id);
   }

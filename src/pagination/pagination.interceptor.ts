@@ -24,8 +24,8 @@ export class PaginationInterceptor<T> implements NestInterceptor {
               itemsPerPage: limit,
             },
           };
-        }
-      )
+        },
+      ),
     );
   }
 }

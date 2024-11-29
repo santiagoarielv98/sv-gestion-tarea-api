@@ -11,7 +11,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<User> {
@@ -36,7 +36,7 @@ export class AuthService {
   async register(user: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(
       user.password,
-      parseInt(this.configService.get("SALT_ROUNDS"))
+      parseInt(this.configService.get("SALT_ROUNDS")),
     );
 
     const newUser = await this.usersService.create({

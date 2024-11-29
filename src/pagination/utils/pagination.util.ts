@@ -7,7 +7,7 @@ export async function paginatePrisma<T>(
   paginationDto: PaginationDto,
   where?: object, // Opcional: filtros adicionales
   orderBy?: object, // Opcional: ordenamiento
-  include?: object // Opcional: relaciones a incluir
+  include?: object, // Opcional: relaciones a incluir
 ) {
   const { page, limit } = paginationDto;
   const skip = (page - 1) * limit;
@@ -15,7 +15,7 @@ export async function paginatePrisma<T>(
   // chequear que el key de orderBy sea un campo válido
   if (orderBy) {
     const table = Prisma.dmmf.datamodel.models.find(
-      (m) => m.name === model.name
+      (m) => m.name === model.name,
     );
 
     const fields = table.fields.map((f) => f.name);

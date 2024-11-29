@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import * as bcrypt from "bcrypt";
-import { userDemoConfig } from "src/config/user-demo.config";
+import { userDemoConfig } from "../src/config/user-demo.config";
 
 const prisma = new PrismaClient();
 
@@ -15,6 +15,7 @@ function createRandomTask() {
   return {
     title: faker.lorem.words(),
     content: faker.lorem.paragraph(),
+    completed: faker.datatype.boolean({ probability: 0.3 }),
   };
 }
 
@@ -25,7 +26,7 @@ function createRandomUser({ password }: { password: string }) {
     password,
     tasks: {
       create: faker.helpers.multiple(createRandomTask, {
-        count: faker.number.int({ min: 1, max: 15 }),
+        count: faker.number.int({ min: 1, max: 5 }),
       }),
     },
   };
@@ -38,12 +39,12 @@ function createDemoUser({ password }: { password: string }) {
     password,
     tags: {
       create: faker.helpers.multiple(createRandomTag, {
-        count: faker.number.int({ min: 1, max: 15 }),
+        count: faker.number.int({ min: 15, max: 55 }),
       }),
     },
     tasks: {
       create: faker.helpers.multiple(createRandomTask, {
-        count: faker.number.int({ min: 1, max: 15 }),
+        count: faker.number.int({ min: 15, max: 55 }),
       }),
     },
   };
@@ -83,8 +84,8 @@ async function main() {
       await Promise.all(
         tasks.map(async (task) => {
           const randomTags = faker.helpers.arrayElements(tags, {
-            min: 1,
-            max: 5,
+            min: 15,
+            max: 55,
           });
 
           await prisma.task.update({
