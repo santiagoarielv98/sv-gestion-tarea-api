@@ -1,6 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Exclude, Expose, Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from "class-validator";
 import { MetaDto } from "../../pagination/dto/meta.dto";
 import { TagResponseDto } from "../../tags/dto/tag-response.dto";
 
@@ -35,6 +41,16 @@ export class TaskResponseDto {
   @IsOptional()
   @IsString()
   content?: string | null;
+
+  @Expose()
+  @ApiProperty({
+    description: "Estado de la tarea",
+    example: true,
+    default: true,
+  })
+  @IsNotEmpty()
+  @IsBoolean()
+  completed: boolean;
 
   @Expose()
   @Type(() => TagResponseDto)
