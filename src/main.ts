@@ -23,11 +23,11 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle("Sv - Gestion de Tareas API")
-    // .setDescription("API para la gestión de tareas")
-    // explicar que es
+    .setTitle("SV - Gestion de Tareas API")
+    .setDescription("API de gestión de tareas, desarrollada con NestJS")
     .setVersion("1.0")
     .addTag("API")
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

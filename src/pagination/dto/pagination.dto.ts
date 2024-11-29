@@ -1,30 +1,31 @@
 import { Type } from "class-transformer";
-import * as Validator from "class-validator";
+import { IsEnum, IsInt, IsOptional, IsString, Min } from "class-validator";
 import { SortOrder } from "../enums/sort-order.enum";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class PaginationDto {
-  @Validator.IsOptional()
-  @Validator.IsInt()
+  @IsOptional()
+  @IsInt()
   @Type(() => Number)
-  @Validator.Min(1)
+  @Min(1)
   page?: number = 1;
 
-  @Validator.IsOptional()
-  @Validator.IsInt()
+  @IsOptional()
+  @IsInt()
   @Type(() => Number)
-  @Validator.Min(1)
+  @Min(1)
   limit?: number = 10;
 
-  @Validator.IsOptional()
-  @Validator.IsString()
-  @Validator.IsEnum(SortOrder)
+  @IsOptional()
+  @IsString()
+  @IsEnum(SortOrder)
   order?: SortOrder;
 
-  @Validator.IsOptional()
-  @Validator.IsString()
+  @IsOptional()
+  @IsString()
   sort?: string;
 
-  @Validator.IsOptional()
-  @Validator.IsString()
+  @IsOptional()
+  @IsString()
   q?: string = "";
 }

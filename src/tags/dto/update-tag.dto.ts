@@ -1,4 +1,13 @@
-import { PartialType } from "@nestjs/mapped-types";
-import { CreateTagDto } from "./create-tag.dto";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty, IsString } from "class-validator";
 
-export class UpdateTagDto extends PartialType(CreateTagDto) {}
+export class UpdateTagDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: "Nombre de la etiqueta",
+    example: "Node.js",
+    default: "Node.js",
+  })
+  name: string;
+}
