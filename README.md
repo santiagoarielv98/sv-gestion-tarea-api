@@ -7,7 +7,7 @@ La API cuenta con documentación generada automáticamente con Swagger.
 
 # Demo
 
-Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv-gestion-tarea-api.vercel.app/api-docs](https://sv-gestion-tarea-api.vercel.app/api-docs)
+Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv-gestion-tarea-api.vercel.app/](https://sv-gestion-tarea-api.vercel.app/)
 
 ## Tabla de Contenidos
 
