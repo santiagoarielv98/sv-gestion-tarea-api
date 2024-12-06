@@ -51,6 +51,15 @@ function createDemoUser({ password }: { password: string }) {
 }
 
 async function main() {
+  const isDemoUserExist = await prisma.user.findUnique({
+    where: { email: userDemoConfig.email },
+  });
+
+  if (isDemoUserExist) {
+    return;
+  }
+
+
   const password = await bcrypt.hash(
     userDemoConfig.password,
     parseInt(process.env.SALT_ROUNDS)
