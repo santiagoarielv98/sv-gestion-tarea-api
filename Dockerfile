@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:20 AS builder
 
 WORKDIR /usr/src/app
 
@@ -11,6 +11,15 @@ RUN npx prisma generate
 COPY . .
 
 RUN npm run build
+
+FROM node:20-slim
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/package*.json ./
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/prisma ./prisma
 
 EXPOSE 3000
 
