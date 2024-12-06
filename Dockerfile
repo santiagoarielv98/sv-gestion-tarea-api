@@ -1,4 +1,4 @@
-FROM node:20 AS builder
+FROM node:20
 
 WORKDIR /usr/src/app
 
@@ -12,16 +12,16 @@ COPY . .
 
 RUN npm run build
 
-FROM node:20-slim
+# FROM node:20-slim
 
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
-COPY --from=builder /usr/src/app/package*.json ./
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/prisma ./prisma
+# COPY --from=builder /usr/src/app/package*.json ./
+# COPY --from=builder /usr/src/app/node_modules ./node_modules
+# COPY --from=builder /usr/src/app/dist ./dist
+# COPY --from=builder /usr/src/app/prisma ./prisma
 
-EXPOSE 3000
+EXPOSE 8080
 
 COPY entrypoint.sh ./entrypoint.sh
 

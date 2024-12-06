@@ -1,7 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import * as bcrypt from "bcrypt";
-import { userDemoConfig } from "../src/config/user-demo.config";
+
+const userDemoConfig = {
+  name: "Demo User",
+  email: "demo@example.com",
+  password: "password",
+};
 
 const prisma = new PrismaClient();
 

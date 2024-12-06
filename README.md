@@ -48,8 +48,8 @@ Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv
    ```bash
    npm run start:dev
    ```
-7. La API estará disponible en `http://localhost:3000/api` por defecto.
-8. Puedes acceder a la documentación de la API en `http://localhost:3000/`.
+7. La API estará disponible en `http://localhost:8080/api` por defecto.
+8. Puedes acceder a la documentación de la API en `http://localhost:8080/`.
 
 ## Uso con Docker
 
@@ -111,5 +111,5 @@ Las siguientes variables de entorno son necesarias para ejecutar el proyecto:
 - `JWT_SECRET`: Clave secreta para firmar los tokens JWT.
 
 - `JWT_EXPIRATION`: Tiempo de expiración de los tokens JWT. Por defecto es `1d`.
-- `PORT`: Puerto en el que corre la aplicación. Por defecto es `3000`.
+- `PORT`: Puerto en el que corre la aplicación. Por defecto es `8080`.
 - `SALT_ROUNDS`: Número de rondas para el algoritmo de encriptación de contraseñas. Por defecto es `10`.
