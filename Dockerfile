@@ -21,7 +21,7 @@ RUN npm run build
 # COPY --from=builder /usr/src/app/dist ./dist
 # COPY --from=builder /usr/src/app/prisma ./prisma
 
-EXPOSE 8080
+EXPOSE 8000
 
 COPY entrypoint.sh ./entrypoint.sh
 

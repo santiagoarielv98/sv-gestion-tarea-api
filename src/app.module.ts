@@ -10,7 +10,7 @@ import { UsersModule } from "./users/users.module";
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
-        PORT: Joi.number().default(8080),
+        PORT: Joi.number().default(8000),
         SALT_ROUNDS: Joi.number().default(10),
         JWT_EXPIRATION: Joi.string().default("1d"),
         JWT_SECRET: Joi.string().required(),

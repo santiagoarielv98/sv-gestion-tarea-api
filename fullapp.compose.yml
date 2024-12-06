@@ -2,21 +2,15 @@ services:
   frontend:
     image: santiagoarielv/sv-gestion-tarea
     ports:
-      - "3000:3000"
-    environment:
-      - APP_API_URL=http://localhost:8080
-    volumes:
-      - .:/app                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-      - /app/node_modules
+      - "3000:80"
     depends_on:
       - backend
-      - db
   backend:
     build:
       context: .
       dockerfile: Dockerfile 
     ports:
-      - "8080:8080"
+      - "8000:8000"
     env_file:
       - .env
     volumes:

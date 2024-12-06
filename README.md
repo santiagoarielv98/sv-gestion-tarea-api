@@ -48,8 +48,8 @@ Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv
    ```bash
    npm run start:dev
    ```
-7. La API estará disponible en `http://localhost:8080/api` por defecto.
-8. Puedes acceder a la documentación de la API en `http://localhost:8080/`.
+7. La API estará disponible en `http://localhost:8000/api` por defecto.
+8. Puedes acceder a la documentación de la API en `http://localhost:8000/`.
 
 ## Uso con Docker
 
@@ -74,8 +74,36 @@ Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv
    ```bash
    docker-compose up --build
    ```
-6. La API estará disponible en `http://localhost:8080/api` por defecto.
-7. Puedes acceder a la documentación de la API en `http://localhost:8080/`.
+6. La API estará disponible en `http://localhost:8000/api` por defecto.
+7. Puedes acceder a la documentación de la API en `http://localhost:8000/`.
+
+## Uso de la Aplicación Completa
+
+Puedes usar la aplicación completa (frontend y backend) con Docker Compose.
+
+### Requisitos Previos
+
+- Docker
+- Docker Compose
+
+### Pasos
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/santiagoarielv98/sv-gestion-tarea-api.git
+   ```
+2. Navega al directorio del proyecto:
+   ```bash
+   cd sv-gestion-tarea-api
+   ```
+3. Crea un archivo `.env` en la raíz del proyecto y copia el contenido del archivo `.env.example`.
+4. Configura las variables de entorno en el archivo `.env`.
+5. Construye y levanta los contenedores:
+   ```bash
+   docker-compose -f fullapp.compose.yml up --build
+   ```
+6. La aplicación estará disponible en `http://localhost:3000` por defecto.
+7. Puedes acceder a la documentación de la API en `http://localhost:8000/`.
 
 ## API
 
@@ -111,5 +139,5 @@ Las siguientes variables de entorno son necesarias para ejecutar el proyecto:
 - `JWT_SECRET`: Clave secreta para firmar los tokens JWT.
 
 - `JWT_EXPIRATION`: Tiempo de expiración de los tokens JWT. Por defecto es `1d`.
-- `PORT`: Puerto en el que corre la aplicación. Por defecto es `8080`.
+- `PORT`: Puerto en el que corre la aplicación. Por defecto es `8000`.
 - `SALT_ROUNDS`: Número de rondas para el algoritmo de encriptación de contraseñas. Por defecto es `10`.
