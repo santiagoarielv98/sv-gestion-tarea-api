@@ -14,6 +14,7 @@ Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv
 - [Instalación](#instalación)
 - [API](#api)
 - [Variables de Entorno](#variables-de-entorno)
+- [Uso con Docker](#uso-con-docker)
 
 ## Instalación
 
@@ -49,6 +50,32 @@ Puedes acceder a la documentación de la API en el siguiente enlace: [https://sv
    ```
 7. La API estará disponible en `http://localhost:3000/api` por defecto.
 8. Puedes acceder a la documentación de la API en `http://localhost:3000/`.
+
+## Uso con Docker
+
+### Requisitos Previos
+
+- Docker
+- Docker Compose
+
+### Pasos
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/santiagoarielv98/sv-gestion-tarea-api.git
+   ```
+2. Navega al directorio del proyecto:
+   ```bash
+   cd sv-gestion-tarea-api
+   ```
+3. Crea un archivo `.env` en la raíz del proyecto y copia el contenido del archivo `.env.example`.
+4. Configura las variables de entorno en el archivo `.env`.
+5. Construye y levanta los contenedores:
+   ```bash
+   docker-compose up --build
+   ```
+6. La API estará disponible en `http://localhost:8080/api` por defecto.
+7. Puedes acceder a la documentación de la API en `http://localhost:8080/`.
 
 ## API
 
